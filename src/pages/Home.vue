@@ -1,20 +1,26 @@
 <template>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <div class="home-container">
     <!-- Header Section -->
-    <header class="header">
+    <header :class="['header', { 'scrolled': isScrolled }]">
       <div class="logo">
         <span>INVISINGS.</span>
       </div>
+
+      <div class="hamburger" @click="toggleNav">
+        <i class="fas fa-bars"></i>
+      </div>
+
       <nav class="nav">
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">Acerca</a></li>
-          <li><a href="#information">informacion</a></li>
-          <li><a href="#">Buscame</a></li>
-          <li><a href="#">Aprender a jugar</a></li>
-          <li><a href="#team">Nosotros</a></li>
+          <li><a href="#home" @click="closeNav">Home</a></li>
+          <li><a href="#about" @click="closeNav">Acerca</a></li>
+          <li><a href="#information" @click="closeNav">Información</a></li>
+          <li><a href="#" @click="closeNav">Buscame</a></li>
+          <li><a href="#" @click="closeNav">Aprender a jugar</a></li>
+          <li><a href="#team" @click="closeNav">Nosotros</a></li>
         </ul>
-      </nav>
+    </nav>
     </header>
 
     <!-- Hero Section -->
@@ -87,20 +93,26 @@
         <h3>Conoce Nuestro Equipo</h3>
         <p class="team-description">Un grupo diverso de ingenieros, diseñadores inclusivos y especialistas en accesibilidad comprometidos con hacer la diferencia.</p>
         <div class="team-members">
-  <div class="team-member" v-for="(member, index) in teamMembers" :key="index">
-    <!-- Add the image here -->
-    <img 
-      :src="member.image" 
-      :alt="`Foto de ${member.name}`" 
-      class="member-image"
+          <div class="team-member" v-for="(member, index) in teamMembers" :key="index">
+            <img 
+              :src="member.image" 
+              :alt="`Foto de ${member.name}`" 
+              class="member-image"
             />
-            <div class="member-info">
-              <p class="member-role">{{ member.role }}</p>
-              <p class="member-name">{{ member.name }}</p>
-            </div>
-          </div>
+          <div class="member-info">
+          <p class="member-role">{{ member.role }}</p>
+          <p class="member-name">{{ member.name }}</p>
+          <div class="member-social">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
+        
       </div>
+    </div>
+  </div>
+</div>
     </section>
   </div>
 </template>
@@ -130,6 +142,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style>
 /* ------------------------------------------------------
@@ -176,29 +190,68 @@ html{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
+  padding: 15px 30px;
+  position: fixed; /* Make the navbar fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays on top */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: background-color 0.3s ease, padding 0.3s ease; /* Smooth transitions */
+}
+
+.header.scrolled {
+  background-color: rgba(164, 147, 127, 0.9); /* Slightly transparent background */
+  padding: 10px 30px; /* Reduce padding on scroll */
 }
 
 .logo {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: var(--light-coffee);
+  transition: transform 0.3s ease;
+}
+
+
+.logo:hover {
+  transform: scale(1.05); /* Slightly enlarge the logo on hover */
 }
 
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 15px;
+  gap: 25px; /* Increase gap between links */
 }
 
 .nav a {
   color: var(--light-coffee);
   text-decoration: none;
   font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--light-coffee);
+  transform: scaleX(0); /* Start with no underline */
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.nav a:hover::after {
+  transform: scaleX(1); /* Show underline on hover */
+  transform-origin: bottom left;
 }
 
 .nav a:hover {
-  text-decoration: underline;
+  color: var(--variant2); /* Change text color on hover */
 }
 
 /* Hero Section */
@@ -361,6 +414,7 @@ html{
   padding: 3rem 2rem;
   border-radius: 15px;
   margin-top: 4rem;
+  text-align: center;
 }
 
 .team-members {
@@ -372,29 +426,109 @@ html{
 
 .team-member {
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  padding: 1rem;
+}
+.team-member:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .member-image {
-  transition: transform 0.3s ease;
-  width: 100%; /* Make the image fill the card width */
-  height: 200px; /* Fixed height for consistency */
+  width: 150px; /* Fixed size for consistency */
+  height: 150px; /* Fixed size for consistency */
   object-fit: cover; /* Ensures the image covers the area without distortion */
-  border-radius: 10px 10px 0 0; /* Rounded corners at the top */
+  border-radius: 50%; /* Makes the image circular */
+  border: 4px solid var(--light-coffee); /* Adds a border */
+  margin: 0 auto 1rem; /* Centers the image and adds space below */
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 .team-member:hover .member-image {
-  transform: scale(1.05); /* Slightly enlarge the image on hover */
+  transform: scale(1.1); /* Slightly enlarges the image on hover */
+  border-color: var(--variant2); /* Changes border color on hover */
 }
 
 .member-info {
-  padding: 1.5rem;
-  color: var(--variant2);
+  padding: 1rem;
 }
 
 .member-role {
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: var(--variant2);
+  font-size: 1.1rem;
+}
+
+.member-name {
+  color: var(--variant2);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.member-social {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Space between icons */
+  margin-top: 1rem; /* Space above the icons */
+}
+
+.member-social a {
+  color: var(--variant2); /* Icon color */
+  font-size: 1.2rem; /* Icon size */
+  transition: color 0.3s ease;
+}
+
+.member-social a:hover {
+  color: var(--strong-coffee); /* Icon color on hover */
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none; /* Hide by default on larger screens */
+  font-size: 1.5rem;
+  color: var(--light-coffee);
+  cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; /* Show the hamburger icon on small screens */
+  }
+
+  .hamburger.active i::before {
+  content: '\f00d'; /* Font Awesome "X" icon */
+  }
+
+  .nav ul {
+    display: none; /* Hide the nav links by default on small screens */
+    flex-direction: column;
+    position: absolute;
+    top: 60px; /* Adjust based on header height */
+    right: 20px;
+    background-color: var(--strong-coffee);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .nav.active ul {
+    display: flex; /* Show the nav links when active */
+  }
 }
 
 @media (max-width: 768px) {
