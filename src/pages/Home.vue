@@ -19,8 +19,14 @@
           <li><a href="#home" @click="closeNav">Home</a></li>
           <li><a href="#about" @click="closeNav">Acerca</a></li>
           <li><a href="#information" @click="closeNav">Información</a></li>
-          <li><a href="#" @click="closeNav">Buscame</a></li>
-          <li><a href="#" @click="closeNav">Aprender a jugar</a></li>
+          <li>
+            <router-link to="/buscame" @click="closeNav">Buscame</router-link>
+          </li>
+          <li>
+            <router-link to="/aprender-a-jugar" @click="closeNav"
+              >Aprender a jugar</router-link
+            >
+          </li>
           <li><a href="#team" @click="closeNav">Nosotros</a></li>
         </ul>
       </nav>
@@ -106,43 +112,55 @@
       </div>
 
       <div class="necessity-section">
-  <div class="necessity-content">
-    <h3>¿Por qué es esencial nuestra innovación?</h3>
-    
-    <!-- Graphic Chart -->
-    <div class="necessity-chart">
-      <div class="chart-bar" style="width: 70%">
-        <div class="chart-label">70% Mayor riesgo de aislamiento social</div>
-      </div>
-      <div class="chart-bar" style="width: 85%">
-        <div class="chart-label">85% Dificultad en transporte público</div>
-      </div>
-      <div class="chart-bar" style="width: 60%">
-        <div class="chart-label">60% Limitado acceso a información médica</div>
-      </div>
-    </div>
+        <div class="necessity-content">
+          <h3>¿Por qué es esencial nuestra innovación?</h3>
 
-    <!-- Necessity Text -->
-    <div class="necessity-text">
-      <p>
-        Las estadísticas muestran que las personas con discapacidad visual enfrentan:
-      </p>
-      <ul class="necessity-list">
-        <li><span class="icon">⚠️</span>Barreras diarias en movilidad</li>
-        <li><span class="icon">📉</span>Limitadas oportunidades laborales</li>
-        <li><span class="icon">💊</span>Dificultad en gestión médica independiente</li>
-      </ul>
-      <p class="chart-source">
-        Fuente: Estudio de Accesibilidad Global 2023
-      </p>
-    </div>
-  </div>
-</div>
+          <!-- Graphic Chart -->
+          <div class="necessity-chart">
+            <div class="chart-bar" style="width: 70%">
+              <div class="chart-label">
+                70% Mayor riesgo de aislamiento social
+              </div>
+            </div>
+            <div class="chart-bar" style="width: 85%">
+              <div class="chart-label">
+                85% Dificultad en transporte público
+              </div>
+            </div>
+            <div class="chart-bar" style="width: 60%">
+              <div class="chart-label">
+                60% Limitado acceso a información médica
+              </div>
+            </div>
+          </div>
+
+          <!-- Necessity Text -->
+          <div class="necessity-text">
+            <p>
+              Las estadísticas muestran que las personas con discapacidad visual
+              enfrentan:
+            </p>
+            <ul class="necessity-list">
+              <li><span class="icon">⚠️</span>Barreras diarias en movilidad</li>
+              <li>
+                <span class="icon">📉</span>Limitadas oportunidades laborales
+              </li>
+              <li>
+                <span class="icon">💊</span>Dificultad en gestión médica
+                independiente
+              </li>
+            </ul>
+            <p class="chart-source">
+              Fuente: Estudio de Accesibilidad Global 2023
+            </p>
+          </div>
+        </div>
+      </div>
 
       <!-- Feature Section -->
       <div class="feature-section">
         <div id="information" class="feature-text">
-          <h3 >Nuestras Innovaciones </h3>
+          <h3>Nuestras Innovaciones</h3>
           <p>
             En <strong>Invisings</strong>, estamos comprometidos con la creación
             de tecnología que transforma vidas. Nuestra aplicación está diseñada
@@ -745,7 +763,7 @@ html {
 }
 
 .chart-bar::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -754,9 +772,15 @@ html {
   border-radius: 25px;
 }
 
-.chart-bar:nth-child(1)::before { width: 70% }
-.chart-bar:nth-child(2)::before { width: 85% }
-.chart-bar:nth-child(3)::before { width: 60% }
+.chart-bar:nth-child(1)::before {
+  width: 70%;
+}
+.chart-bar:nth-child(2)::before {
+  width: 85%;
+}
+.chart-bar:nth-child(3)::before {
+  width: 60%;
+}
 
 .necessity-text {
   text-align: center;
@@ -776,7 +800,7 @@ html {
   background: var(--light-coffee);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -798,7 +822,7 @@ html {
     height: 40px;
     font-size: 0.9rem;
   }
-  
+
   .necessity-list {
     grid-template-columns: 1fr;
   }
@@ -840,8 +864,6 @@ html {
   .nav.active ul {
     display: flex; /* Show the nav links when active */
   }
-
-  
 }
 
 @media (max-width: 768px) {
