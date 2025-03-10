@@ -4,7 +4,9 @@ import Home from './pages/Home.vue';
 </script>
 
 <template>
-  <router-view></router-view><!-- This will render the current route's component -->
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
