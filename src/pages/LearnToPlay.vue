@@ -19,6 +19,8 @@
       <main class="game-main">
         <div class="game-card">
           <h1 class="game-title">Aprende Braille</h1>
+
+
   
           <div class="word-display" :class="{ incorrect: showIncorrect }">
             <!-- Show the current word in Braille -->
@@ -49,6 +51,19 @@
               <strong>Traducción:</strong> {{ translations[currentWord] }}
             </div>
           </div>
+
+          <div class="next-word-board">
+          <h3>Próxima Palabra</h3>
+          <div class="next-word-display">
+            <span
+              v-for="(char, index) in nextWordBraille"
+              :key="index"
+              class="braille-char"
+            >
+              {{ char }}
+            </span>
+          </div>
+        </div>
   
           <div class="feedback-message" :class="feedbackClass">
             {{ feedbackMessage }}
@@ -122,6 +137,14 @@
           incorrect: this.feedbackMessage === "Intenta nuevamente",
         };
       },
+      nextWordBraille() {
+      if (this.words.length > 0) {
+        return this.words[0]
+          .split("")
+          .map((char) => this.translations[char] || char);
+      }
+      return "";
+    },
     },
     mounted() {
       this.initializeGame();
@@ -398,6 +421,28 @@
     color: #4caf50;
     text-align: center;
   }
+
+  /* Next Word Board */
+.next-word-board {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.next-word-board h3 {
+  color: var(--variant2);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.next-word-display {
+  font-size: 2rem;
+  letter-spacing: 0.5rem;
+  color: var(--variant1);
+}
   
   /* Animations */
   @keyframes shake {
