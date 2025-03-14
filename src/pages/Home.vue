@@ -16,17 +16,15 @@
 
       <nav class="nav">
         <ul>
-          <li><a href="#home" @click="closeNav">Home</a></li>
-          <li><a href="#about" @click="closeNav">Acerca</a></li>
-          <li>
-            <a href="#information" @click="closeNav">Información</a>
-          </li>
+          <li><a href="#home" @click="closeNav">Inicio</a></li>
+          <li><a href="#Innovation" @click="closeNav">Innovacion</a></li>
+          <li><a href="#investigation" @click="closeNav">Investigaciones</a></li>
           <li>
             <router-link to="/buscame" @click="closeNav">Buscame</router-link>
           </li>
           <li>
             <router-link to="/aprender-a-jugar" @click="closeNav"
-              >Aprender a jugar</router-link
+              >Aprende Braille</router-link
             >
           </li>
           <li><a href="#team" @click="closeNav">Nosotros</a></li>
@@ -36,7 +34,6 @@
 
     <!-- Hero Section -->
     <div class="main-content">
-      <!-- Hero Section -->
       <section id="home" class="hero">
         <div class="overlay">
           <h1>Innovación más allá de los límites</h1>
@@ -77,92 +74,126 @@
   <div class="information-content">
     <!-- Main section for mission and related content -->
     <section class="information" aria-label="Información general">
-      <!-- New Section: Methodology and Research -->
-      <!-- Methodology Section -->
-<section class="research-section" aria-label="Investigación y metodología">
-  <div class="research-container">
-    <!-- Left Column - Text Content -->
-    <div class="research-main">
-      <h2>Metodología Científica</h2>
-      <p class="section-subtitle">Conjunto de pasos para el llegar al desarrollo de la innovación</p>
+      <!-- Methodology / Research -->
+      <section class="research-section" aria-label="Investigación y metodología">
+        <div class="research-container">
+          <!-- Left Column - Text Content -->
+          <div id="investigation" class="research-main">
+            <h2>Metodología Científica</h2>
+            <p class="section-subtitle">
+              Un enfoque estructurado para la innovación accesible
+            </p>
 
-      <!-- Interactive Tabs System -->
-      <div class="research-tabs">
-        <button 
-          v-for="(tab, index) in researchTabs" 
-          :key="index"
-          @click="activeTab = index"
-          :class="{ active: activeTab === index }"
-        >
-          {{ tab.title }}
-        </button>
-      </div>
+            <!-- Interactive Tabs -->
+            <div class="research-tabs">
+              <button
+                v-for="(tab, index) in researchTabs"
+                :key="index"
+                @click="activeTab = index"
+                :class="{ active: activeTab === index }"
+              >
+                {{ tab.title }}
+              </button>
+            </div>
 
-      <!-- Tab Content -->
-      <div class="tab-content">
-        <div v-for="(tab, index) in researchTabs" 
-             :key="index" 
-             v-show="activeTab === index"
-             class="fade-in">
-          <h3>{{ tab.subtitle }}</h3>
-          <p>{{ tab.content }}</p>
-        </div>
-      </div>
-    </div>
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <div
+                v-for="(tab, index) in researchTabs"
+                :key="index"
+                v-show="activeTab === index"
+                class="fade-in"
+              >
+                <h3>{{ tab.subtitle }}</h3>
+                <p>{{ tab.content }}</p>
+              </div>
+            </div>
 
-    <!-- Right Column - Visual Elements -->
-    <div class="research-sidebar">
-      <!-- Key Statistics -->
-      <div class="stats-card">
-        <h4>Datos Clave</h4>
-        <div class="stat-item">
-          <i class="fas fa-users"></i>
-          <div>
-            <span>250</span>
-            <p>Participantes en el estudio</p>
+            <!-- Document Folder Component -->
+            <MiniaturaDePestañaDeDocumentos
+              :documents="documents"
+              @document-selected="handleDocumentSelect"
+            />
+          </div>
+
+          <!-- Right Column - Datos Curiosos -->
+          <div class="research-sidebar">
+            <div class="curiosities-card">
+              <h4>Datos Curiosos</h4>
+
+              <div class="curiosity-item">
+                <i class="fas fa-brain"></i>
+                <div>
+                  <span>30%</span>
+                  <p>
+                    del cerebro se activa al procesar información táctil en
+                    personas con discapacidad visual.
+                  </p>
+                </div>
+              </div>
+
+              <div class="curiosity-item">
+                <i class="fas fa-globe"></i>
+                <div>
+                  <span>285M</span>
+                  <p>
+                    de personas en el mundo tienen discapacidad visual, según la
+                    OMS.
+                  </p>
+                </div>
+              </div>
+
+              <div class="curiosity-item">
+                <i class="fas fa-book"></i>
+                <div>
+                  <span>1.5x</span>
+                  <p>
+                    más rápido es el aprendizaje del braille en niños que en
+                    adultos.
+                  </p>
+                </div>
+              </div>
+
+              <div class="curiosity-item">
+                <i class="fas fa-hand-holding-heart"></i>
+                <div>
+                  <span>80%</span>
+                  <p>
+                    de los casos de discapacidad visual son prevenibles o
+                    tratables.
+                  </p>
+                </div>
+              </div>
+
+              <div class="curiosity-item">
+                <i class="fas fa-lightbulb"></i>
+                <div>
+                  <span>90%</span>
+                  <p>
+                    de las personas con discapacidad visual usan un smartphone
+                    como herramienta principal.
+                  </p>
+                </div>
+              </div>
+
+              <div class="curiosity-item">
+                <i class="fas fa-users"></i>
+                <div>
+                  <span>2x</span>
+                  <p>
+                    más probabilidades tienen las personas con discapacidad
+                    visual de vivir en pobreza.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <div class="stat-item">
-          <i class="fas fa-chart-bar"></i>
-          <div>
-            <span>75.4%</span>
-            <p>Mejora en autonomía reportada</p>
-          </div>
-        </div>
-
-        <div class="stat-item">
-          <i class="fas fa-check-circle"></i>
-          <div>
-            <span>0.91 </span>
-            <p>Confianza en resultados</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Methodology Timeline -->
-      <div class="timeline-card">
-        <h4>Fases del Proyecto</h4>
-        <div class="timeline">
-          <div class="timeline-step" v-for="(step, index) in timelineSteps" :key="index">
-            <div class="step-marker">{{ index + 1 }}</div>
-            <p>{{ step }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-      <!-- End of .necessity-section -->
+      </section>
 
       <!-- Features / Innovations Section -->
-      <section
-        class="feature-section"
-        aria-label="Características principales de Invisings"
-      >
-        <!-- Text about the app’s main features -->
-        <div id="information" class="feature-text">
+      <section class="feature-section" aria-label="Características principales">
+        <div id="Innovation" class="feature-text">
           <h3>Nuestras Innovaciones</h3>
           <p>
             En <strong>Invisings</strong>, estamos comprometidos con la creación
@@ -208,23 +239,17 @@
           </p>
         </div>
 
-        <!-- Feature image -->
         <div class="feature-image">
           <img
             src="/src/assets/PruebaEjemplo.jpg"
-            alt="Representación visual de tecnología accesible para personas con discapacidad visual"
+            alt="Representación visual de tecnología accesible"
             class="accessible-image"
           />
         </div>
       </section>
-      <!-- End of .feature-section -->
 
       <!-- Team Section -->
-      <section
-        id="team"
-        class="team-section"
-        aria-label="Conoce nuestro equipo"
-      >
+      <section id="team" class="team-section" aria-label="Conoce nuestro equipo">
         <h3>Conoce Nuestro Equipo</h3>
         <p class="team-description">
           Un grupo diverso de ingenieros, diseñadores inclusivos y especialistas
@@ -262,15 +287,17 @@
           </div>
         </div>
       </section>
-      <!-- End of #team -->
     </section>
-    <!-- End of .information -->
   </div>
 </template>
-
 <script>
+import MiniaturaDePestañaDeDocumentos from "../components/MiniaturaDePestañaDeDocumentos.vue";
+
 export default {
   name: "Home",
+  components: {
+    MiniaturaDePestañaDeDocumentos,
+  },
   data() {
     return {
       isScrolled: false, // Used to handle scroll-based header style
@@ -286,9 +313,9 @@ export default {
           image: "/src/assets/Perfil_german.png",
         },
         {
-          name: "Aurora",
-          role: "Especialista en Braille",
-          image: "/src/assets/team/juan.jpg",
+          name: "Caamaño Orozco Esmeralda Aurora",
+          role: "Estudiantes de contaduria",
+          image: "/src/assets/Aurora.jpeg",
         },
       ],
       activeTab: 0,
@@ -296,42 +323,46 @@ export default {
         {
           title: "Problema",
           subtitle: "Planteamiento del Problema",
-          content: "El proyecto INVISIGNS surge debido a la falta de herramientas accesibles para personas con discapacidad visual . Se identificó que estas poblaciones enfrentan barreras en la educación, el trabajo y la vida diaria debido a la escasez de productos adaptados, lo que limita su autonomía. La falta de tecnologías accesibles y asequibles agrava el problema, haciendo necesario el desarrollo de soluciones innovadoras como KeySens y la aplicación Voz Amiga, que buscan facilitar la interacción con dispositivos tecnológicos​"
+          content:
+            "El proyecto INVISIGNS surge debido a la falta de herramientas accesibles para personas con discapacidad visual . Se identificó que estas poblaciones enfrentan barreras en la educación, el trabajo y la vida diaria debido a la escasez de productos adaptados, lo que limita su autonomía. La falta de tecnologías accesibles y asequibles agrava el problema, haciendo necesario el desarrollo de soluciones innovadoras como KeySens y la aplicación Voz Amiga, que buscan facilitar la interacción con dispositivos tecnológicos​",
         },
         {
           title: "Literatura",
-          subtitle: "Revisión de la Literatura", 
-          content: "Se analizaron estudios previos sobre accesibilidad tecnológica y discapacidad visual/auditiva. Investigaciones como las de SAGE Journals (2017) y el Parlamento Europeo (2018) destacan la falta de estándares claros para la implementación de tecnologías inclusivas. Se identificaron avances en software basado en voz y dispositivos adaptativos como posibles soluciones​"
+          subtitle: "Revisión de la Literatura",
+          content:
+            "Se analizaron estudios previos sobre accesibilidad tecnológica y discapacidad visual/auditiva. Investigaciones como las de SAGE Journals (2017) y el Parlamento Europeo (2018) destacan la falta de estándares claros para la implementación de tecnologías inclusivas. Se identificaron avances en software basado en voz y dispositivos adaptativos como posibles soluciones​",
         },
         {
           title: "Diseño",
           subtitle: "Diseño de Investigación",
-          content: "Se empleó un enfoque cuantitativo, de tipo descriptivo y de corte transversal. Se desarrollaron cuestionarios para analizar la percepción de usuarios sobre accesibilidad y funcionalidad de productos inclusivos. Se propuso la aplicación Voz Amiga como complemento de los productos físicos, siguiendo una metodología estructurada en fases: planeación, diseño, desarrollo y despliegue​."
+          content:
+            "Se empleó un enfoque cuantitativo, de tipo descriptivo y de corte transversal. Se desarrollaron cuestionarios para analizar la percepción de usuarios sobre accesibilidad y funcionalidad de productos inclusivos. Se propuso la aplicación Voz Amiga como complemento de los productos físicos, siguiendo una metodología estructurada en fases: planeación, diseño, desarrollo y despliegue​.",
         },
         {
-          title:"Recopilación",
-          subtitle:"Recopilación de Datos",
-          content:"Se aplicaron dos cuestionarios de tipo Likert a 250 personas. Se midieron factores como adaptación, accesibilidad, utilidad y costo-beneficio. Los datos fueron recolectados a través de encuestas en línea y entrevistas directas​"
+          title: "Recopilación",
+          subtitle: "Recopilación de Datos",
+          content:
+            "Se aplicaron dos cuestionarios de tipo Likert a 250 personas. Se midieron factores como adaptación, accesibilidad, utilidad y costo-beneficio. Los datos fueron recolectados a través de encuestas en línea y entrevistas directas​",
         },
         {
-          title:"Análisis",
-          subtitle:"Análisis de Datos",
-          content:"Se calcularon estadísticos descriptivos sobre la aceptación y percepción de los productos. Se utilizó el coeficiente Alfa de Cronbach para medir la confiabilidad de los cuestionarios, obteniendo valores de 0.91 y 0.87. Los resultados indicaron que el 75.4% de los participantes consideró que un software de asistencia por voz mejoraría su autonomía​."
+          title: "Análisis",
+          subtitle: "Análisis de Datos",
+          content:
+            "Se calcularon estadísticos descriptivos sobre la aceptación y percepción de los productos. Se utilizó el coeficiente Alfa de Cronbach para medir la confiabilidad de los cuestionarios, obteniendo valores de 0.91 y 0.87. Los resultados indicaron que el 75.4% de los participantes consideró que un software de asistencia por voz mejoraría su autonomía​.",
         },
         {
-          title:"Conclusiones",
-          subtitle:"Elaboración de conclusiones",
-          content:"Se confirmó la necesidad de mejorar la accesibilidad digital. Se validó que la combinación de productos físicos (KeySens) con software de asistencia (Voz Amiga) representa una solución viable. Se concluyó que la educación y la sensibilización sobre inclusión tecnológica son clave para la adopción de estas herramientas​"
+          title: "Conclusiones",
+          subtitle: "Elaboración de conclusiones",
+          content:
+            "Se confirmó la necesidad de mejorar la accesibilidad digital. Se validó que la combinación de productos físicos (KeySens) con software de asistencia (Voz Amiga) representa una solución viable. Se concluyó que la educación y la sensibilización sobre inclusión tecnológica son clave para la adopción de estas herramientas​",
         },
         {
-          title:"Divulgación científica",
-          subtitle:"Divulgación",
-          content:"El proyecto INVISIGNS fue presentado en la Universidad Veracruzana como parte de un reporte científico avanzado. Se publicaron los hallazgos en una página web y redes sociales para promover el conocimiento sobre accesibilidad. Se realizaron alianzas con instituciones educativas para la distribución de los productos y su implementación en programas de inclusión"},
-        {
-          title:"",
-          subtitle:"",
-          content:""
+          title: "Divulgación científica",
+          subtitle: "Divulgación",
+          content:
+            "El proyecto INVISIGNS fue presentado en la Universidad Veracruzana como parte de un reporte científico avanzado. Se publicaron los hallazgos en una página web y redes sociales para promover el conocimiento sobre accesibilidad. Se realizaron alianzas con instituciones educativas para la distribución de los productos y su implementación en programas de inclusión",
         },
+
         // Add more tabs as needed
       ],
       timelineSteps: [
@@ -340,7 +371,26 @@ export default {
         "Diseño de solución",
         "Desarrollo tecnológico",
         "Validación con usuarios",
-        "Implementación final"
+        "Implementación final",
+      ],
+      documents: [
+        {
+          title: "Reporte Final.pdf",
+          type: "pdf",
+          thumbnail: "/documents/reporte-final.jpg",
+        },
+        {
+          title: "Diseño Metodológico.docx",
+          type: "doc",
+        },
+        {
+          title: "Presentación General.pptx",
+          type: "ppt",
+        },
+        {
+          title: "Encuestas de Validación.pdf",
+          type: "pdf",
+        },
       ],
     };
   },
@@ -370,6 +420,11 @@ export default {
 
     toggleCard(index) {
       this.methodology[index].isOpen = !this.methodology[index].isOpen;
+    },
+
+    handleDocumentSelect(document) {
+      // Handle document selection
+      console.log("Selected document:", document);
     },
   },
 };
@@ -402,7 +457,7 @@ html {
 .home-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* changed from 100vb to 100vh */
+  min-height: 100vh;
   font-family: "Arial", sans-serif;
   color: var(--variant2);
   background-color: var(--light-coffee);
@@ -433,13 +488,8 @@ html {
 }
 
 .header.scrolled {
-  background-color: rgba(
-    164,
-    147,
-    127,
-    0.9
-  ); /* Slightly transparent background */
-  padding: 10px 30px; /* Reduce padding on scroll */
+  background-color: rgba(164, 147, 127, 0.9);
+  padding: 10px 30px;
 }
 
 .logo {
@@ -450,16 +500,23 @@ html {
 }
 
 .logo:hover {
-  transform: scale(1.05); /* Slightly enlarge the logo on hover */
+  transform: scale(1.05);
 }
 
 /* ======================================
    4. NAVIGATION
 ====================================== */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  color: var(--light-coffee);
+  cursor: pointer;
+}
+
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 25px; /* Increase gap between links */
+  gap: 25px;
 }
 
 .nav a {
@@ -493,7 +550,6 @@ html {
   color: var(--variant2);
 }
 
-/* Mobile Menu Overlay */
 .nav.active::before {
   content: "";
   position: fixed;
@@ -507,6 +563,15 @@ html {
 
 .nav.active ul {
   z-index: 999;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background-color: var(--strong-coffee);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* ======================================
@@ -551,7 +616,7 @@ html {
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  width: 100%; /* ensure % is specified */
+  width: 100%;
   text-align: center;
   color: var(--light-coffee);
 }
@@ -561,76 +626,46 @@ html {
   color: var(--light-coffee);
 }
 
-.about p {
-  color: #ffffff;
+.vision-text {
+  color: var(--light-coffee);
   font-size: 1.5rem;
   max-width: 600px;
   margin: 10px auto;
 }
 
-/* ======================================
-   7. BUTTONS
-====================================== */
-.btn {
-  background-color: var(--variant2);
+/* Vision Stats */
+.vision-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
   color: var(--light-coffee);
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 15px;
 }
 
-.btn:hover {
-  background-color: var(--strong-coffee);
+.stat-label {
+  font-size: 1rem;
+  color: #ffffff;
 }
 
 /* ======================================
-   8. INFORMATION SECTION
+   7. INFORMATION SECTION
 ====================================== */
 .information-content {
   padding: 50px 20px;
   background-color: var(--light-coffee);
 }
 
-.information h2 {
-  font-size: 2.5rem;
-  color: var(--variant2);
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.subheading {
-  font-size: 1.2rem;
-  color: var(--variant1);
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-/* Cards */
-.info-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
-}
-
-.info-card {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.info-card:hover {
-  transform: translateY(-5px);
-}
-
-.card-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+.information {
+  aria-label: Información general;
 }
 
 /* ===== RESEARCH SECTION ===== */
@@ -659,7 +694,6 @@ html {
   font-size: 1.1rem;
 }
 
-/* Tabs System */
 .research-tabs {
   display: flex;
   gap: 1rem;
@@ -686,7 +720,6 @@ html {
   transform: translateY(-2px);
 }
 
-/* Tab Content */
 .tab-content {
   border-left: 3px solid var(--strong-coffee);
   padding-left: 2rem;
@@ -711,68 +744,53 @@ html {
   gap: 2rem;
 }
 
-.stats-card, .timeline-card {
-  background: white;
+.curiosities-card {
+  background: linear-gradient(135deg, var(--variant1) 0%, var(--variant2) 100%);
+  color: white;
   padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.stats-card h4, .timeline-card h4 {
-  color: var(--variant2);
+.curiosities-card h4 {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
-.stat-item {
+.curiosity-item {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.stat-item i {
-  font-size: 1.5rem;
-  color: var(--strong-coffee);
+.curiosity-item i {
+  font-size: 1.8rem;
   width: 40px;
   text-align: center;
-}
-
-.stat-item span {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--variant2);
-}
-
-.stat-item p {
-  color: var(--variant1);
-  font-size: 0.9rem;
-  margin-top: 0.3rem;
-}
-
-/* Timeline */
-.timeline-step {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  align-items: center;
-}
-
-.step-marker {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--strong-coffee);
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  opacity: 0.9;
 }
 
-.timeline p {
-  color: var(--variant2);
+.curiosity-item span {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: white;
+}
+
+.curiosity-item p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
   line-height: 1.4;
+  margin: 0;
+}
+
+.curiosity-item:hover {
+  transform: translateX(10px);
+  opacity: 0.9;
 }
 
 /* Animations */
@@ -781,126 +799,34 @@ html {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Responsive */
+/* Responsive (Research Section) */
 @media (max-width: 768px) {
   .research-container {
     grid-template-columns: 1fr;
   }
-  
+
   .research-tabs button {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
-  
+
   .tab-content {
     padding-left: 1rem;
   }
 }
 
 /* ======================================
-   9. NECESSITY SECTION
-====================================== */
-.necessity-section {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 4rem 2rem;
-  margin: 3rem 0;
-  border-radius: 15px;
-}
-
-.necessity-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.necessity-chart {
-  display: grid;
-  gap: 1.5rem;
-  margin: 3rem 0;
-}
-
-.chart-bar {
-  background: var(--variant1);
-  height: 50px;
-  border-radius: 25px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.chart-bar:hover {
-  transform: scale(1.02);
-}
-
-.chart-label {
-  color: white;
-  font-weight: bold;
-  z-index: 1;
-}
-
-.chart-bar::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background: var(--variant2);
-  border-radius: 25px;
-}
-
-/* Match the bar widths */
-.chart-bar:nth-child(1)::before {
-  width: 70%;
-}
-.chart-bar:nth-child(2)::before {
-  width: 85%;
-}
-.chart-bar:nth-child(3)::before {
-  width: 60%;
-}
-
-.necessity-text {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.necessity-list {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
-}
-
-.necessity-list li {
-  background: var(--light-coffee);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.icon {
-  font-size: 1.5rem;
-}
-
-.chart-source {
-  font-size: 0.9rem;
-  color: var(--variant1);
-  margin-top: 1rem;
-}
-
-/* ======================================
-   10. FEATURE SECTION
+   8. FEATURE SECTION
 ====================================== */
 .feature-section {
   display: flex;
@@ -911,7 +837,7 @@ html {
 
 .feature-text {
   flex: 1;
-  max-width: 60%; /* Adjust as needed */
+  max-width: 60%;
 }
 
 .feature-text h3 {
@@ -929,7 +855,7 @@ html {
 
 .feature-image {
   flex: 1;
-  max-width: 40%; /* Adjust as needed */
+  max-width: 40%;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -943,14 +869,7 @@ html {
 }
 
 .accessible-image:hover {
-  transform: scale(1.05); /* Slight zoom effect on hover */
-}
-
-.accessible-graphic {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, var(--variant1), var(--variant2));
-  opacity: 0.8;
+  transform: scale(1.05);
 }
 
 .feature-list {
@@ -971,8 +890,23 @@ html {
   color: var(--variant2);
 }
 
+/* Mobile Adjustments for Feature Section */
+@media (max-width: 768px) {
+  .feature-section {
+    flex-direction: column;
+  }
+  .feature-text,
+  .feature-image {
+    max-width: 100%;
+  }
+  .feature-image {
+    order: -1;
+    margin-bottom: 2rem;
+  }
+}
+
 /* ======================================
-   11. TEAM SECTION
+   9. TEAM SECTION
 ====================================== */
 .team-section {
   background: var(--strong-coffee);
@@ -980,6 +914,12 @@ html {
   border-radius: 15px;
   margin-top: 4rem;
   text-align: center;
+}
+
+.team-description {
+  color: var(--light-coffee);
+  max-width: 700px;
+  margin: 0.5rem auto 2rem auto;
 }
 
 .team-members {
@@ -997,6 +937,7 @@ html {
   text-align: center;
   padding: 1rem;
 }
+
 .team-member:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -1048,170 +989,15 @@ html {
 }
 
 .member-social a:hover {
-  color: var(--strong-coffee);
-}
-
-
-
-/* ======================================
-   15. METHODOLOGY SECTION
-====================================== */
-.methodology-section {
-  background-color: var(--light-coffee);
-  padding: 4rem 2rem;
-  text-align: center;
-}
-
-.methodology-section h2 {
-  font-size: 2.5rem;
-  color: var(--variant2);
-  margin-bottom: 1rem;
-}
-
-.subheading {
-  font-size: 1.2rem;
-  color: var(--variant1);
-  margin-bottom: 3rem;
-}
-
-.methodology-cards {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.methodology-card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
-}
-
-.methodology-card:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  cursor: pointer;
-  background-color: var(--strong-coffee);
   color: var(--light-coffee);
 }
 
-.card-header h3 {
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.card-header i {
-  font-size: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.card-content {
-  max-height: 0;
-  overflow: hidden;
-  padding: 0 1.5rem;
-  transition: max-height 0.5s ease, padding 0.5s ease;
-}
-
-.card-content.open {
-  max-height: 500px; /* Adjust based on content */
-  padding: 1.5rem;
-}
-
-.card-content p {
-  font-size: 1rem;
-  color: var(--variant2);
-  line-height: 1.6;
-}
 /* ======================================
-   12. HAMBURGER MENU
+   10. RESPONSIVE NAVIGATION
 ====================================== */
-.hamburger {
-  display: none; /* Hide by default on larger screens */
-  font-size: 1.5rem;
-  color: var(--light-coffee);
-  cursor: pointer;
-}
-
-/* ======================================
-   13. RESPONSIVE STYLES (MEDIA QUERIES)
-====================================== */
-
-/* --- General Mobile Adjustments --- */
-@media (max-width: 768px) {
-  /* MOBILE CHART BARS */
-  .chart-bar {
-    height: 40px;
-    font-size: 0.9rem;
-  }
-
-  .necessity-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --- Navigation for Mobile --- */
 @media (max-width: 768px) {
   .hamburger {
-    display: block; /* Show the hamburger icon on small screens */
-  }
-
-  .hamburger.active i::before {
-    content: "\f00d"; /* Font Awesome "X" icon */
-  }
-
-  .nav ul {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: var(--strong-coffee);
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-
-  .nav.active::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-
-  .nav.active ul {
-    display: flex; /* Show the nav links when active */
-  }
-}
-
-/* --- Feature Section Mobile Adjustments --- */
-@media (max-width: 768px) {
-  .feature-section {
-    flex-direction: column;
-  }
-
-  .feature-text,
-  .feature-image {
-    max-width: 100%;
-  }
-
-  .feature-image {
-    order: -1; /* Move the image above the text on small screens */
-    margin-bottom: 2rem;
-  }
-
-  .information h2 {
-    font-size: 2rem;
+    display: block;
   }
 }
 </style>
