@@ -305,7 +305,7 @@ export default {
         {
           name: "Alejandra Bautista Ortiz",
           role: "Estudiante de ingeniería de software",
-          image: "/src/assets/braille.jpg",
+          image: "/src/assets/Alejandra.jpeg",
         },
         {
           name: "Luis German Cabrera Monteros",
@@ -374,24 +374,23 @@ export default {
         "Implementación final",
       ],
       documents: [
-        {
-          title: "Reporte Final.pdf",
-          type: "pdf",
-          thumbnail: "/documents/reporte-final.jpg",
-        },
-        {
-          title: "Diseño Metodológico.docx",
-          type: "doc",
-        },
-        {
-          title: "Presentación General.pptx",
-          type: "ppt",
-        },
-        {
-          title: "Encuestas de Validación.pdf",
-          type: "pdf",
-        },
-      ],
+  {
+    title: "Plan de Negocio.pdf",
+    type: "pdf",
+    url: "/Documents/PlanDeNegocios.pdf", // Correct path to the file
+    thumbnail: "/documents/reporte-final.jpg", // Optional: Add a thumbnail if needed
+  },
+  {
+    title: "Cuestionario de Evaluación.pdf",
+    type: "pdf",
+    url: "/Documents/CuestionarioEvalu.pdf", // Correct path to the file
+  },
+  {
+    title: "Reporte Científico.pdf",
+    type: "pdf",
+    url: "/Documents/ReporteCientifico.pdf", // Correct path to the file
+  },
+],
     };
   },
   mounted() {
