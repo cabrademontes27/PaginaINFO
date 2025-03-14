@@ -34,9 +34,19 @@
         type: Array,
         default: () => [
           {
-            title: "Reporte Final.pdf",
+            title: "Plan de Negocio.pdf",
             type: "pdf",
-            thumbnail: "/documents/reporte-final.jpg"
+            url: "/documents/PlanDeNegocios.pdf"
+          },
+          {
+            title: "Cuestionario de Evaluación.pdf",
+            type: "pdf",
+            url: "/documents/CuestionarioEvalu.pdf"
+          },
+          {
+            title: "Reporte Científico.pdf",
+            type: "pdf",
+            url: "/documents/ReporteCientifio.pdf"
           },
           // Add more default documents if needed
         ]
@@ -63,9 +73,13 @@
         return icons[type] || icons.default
       },
       openDocument(doc) {
-        this.$emit('document-selected', doc)
-        // For now just show alert - connect to actual viewer later
-        alert(`Opening document: ${doc.title}`)
+        if (doc.url) {
+          // Open the document in a new tab
+          window.open(doc.url, '_blank');
+        } else {
+          // Fallback: Show an alert if no URL is provided
+          alert(`No URL provided for document: ${doc.title}`);
+        }
       }
     }
   }
