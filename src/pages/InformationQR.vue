@@ -9,29 +9,33 @@
   </div>
 </template>
   
-  <script setup>
-  import { onMounted, ref } from 'vue';
-  import { useRoute } from 'vue-router';
-  import axios from 'axios';
-  
-  const route = useRoute();
-  const id = route.params.id;
-  
-  const userData = ref({});
-  const loading = ref(true);
-  const error = ref(null);
-  
-  onMounted(async () => {
-    try {
-      const res = await axios.get(`https://api-node-0kfj.onrender.com/api/user/public/${id}`);
-      userData.value = res.data;
-    } catch (err) {
-      error.value = 'No se pudo obtener la información.';
-    } finally {
-      loading.value = false;
-    }
-  });
-  </script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+
+const route = useRoute();
+const id = route.params.id;
+
+const userData = ref({});
+const loading = ref(true);
+const error = ref(null);
+
+console.log("📦 ID recibido:", id); // ✅ Esto sí puede ir aquí
+
+onMounted(async () => {
+  try {
+    const res = await axios.get(`https://api-node-0kfj.onrender.com/api/user/public/${id}`);
+    console.log("📦 Datos obtenidos:", res.data); // ✅ Esto debe ir aquí
+    userData.value = res.data;
+  } catch (err) {
+    error.value = 'No se pudo obtener la información.';
+  } finally {
+    loading.value = false;
+  }
+});
+</script>
+
   
   <style scoped>
   .container {
