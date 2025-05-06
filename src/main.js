@@ -21,6 +21,12 @@ const router = createRouter({
       component: () => import('./pages/FoundMe.vue'),
       meta: { title: 'Localización' }
     },
+    {
+      path: '/info/:id',
+      name: 'InformationQR',
+      component: () => import('./pages/InformationQR.vue'),
+      meta: { title: 'Emergencia | Voz Amiga' }
+    },
   ]
 });
 
