@@ -25,8 +25,9 @@ console.log("📦 ID recibido:", id); // ✅ Esto sí puede ir aquí
 
 onMounted(async () => {
   try {
+    console.log("📦 ID recibido:", id);
     const res = await axios.get(`https://api-node-0kfj.onrender.com/api/user/public/${id}`);
-    console.log("📦 Datos obtenidos:", res.data); // ✅ Esto debe ir aquí
+    console.log("📦 Datos obtenidos:", res.data);
     userData.value = res.data;
   } catch (err) {
     error.value = 'No se pudo obtener la información.';
