@@ -1,14 +1,13 @@
 <template>
-    <div class="container">
-      <h1>Información de Emergencia</h1>
-      <div v-if="loading">Cargando información...</div>
-      <div v-else-if="error">{{ error }}</div>
-      <div v-else>
-        <p><strong>Nombre completo:</strong> {{ userData.fullName }}</p>
-        <!-- En el futuro podrías agregar más campos aquí -->
-      </div>
+  <div class="container">
+    <h1>Información de Emergencia</h1>
+    <div v-if="loading">Cargando información...</div>
+    <div v-else-if="error">{{ error }}</div>
+    <div v-else>
+      <p><strong>Nombre completo:</strong> {{ userData.fullName }}</p>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup>
   import { onMounted, ref } from 'vue';
@@ -16,7 +15,7 @@
   import axios from 'axios';
   
   const route = useRoute();
-  const id = route.params.id; // Asume que la URL es tipo /info/:id
+  const id = route.params.id;
   
   const userData = ref({});
   const loading = ref(true);
@@ -24,7 +23,7 @@
   
   onMounted(async () => {
     try {
-      const res = await axios.get(`https://api.tuservidor.com/api/user/public/${id}`);
+      const res = await axios.get(`https://api-node-0kfj.onrender.com/api/user/public/${id}`);
       userData.value = res.data;
     } catch (err) {
       error.value = 'No se pudo obtener la información.';
