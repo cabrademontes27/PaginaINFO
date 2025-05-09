@@ -29,6 +29,7 @@
 
         <!-- Mostrar datos si no hay loading ni error -->
         <div v-if="!loading && !error" class="user-info">
+          <!-- Datos básicos -->
           <div 
             class="info-row"
             v-for="(value, label) in fields"
@@ -36,6 +37,19 @@
           >
             <span class="info-label">{{ label }}:</span>
             <span class="info-value">{{ value }}</span>
+          </div>
+
+          <!-- Contactos de emergencia -->
+          <div v-if="userData.emergencyContacts?.length" class="emergency-section">
+            <h2>Contactos de Emergencia</h2>
+            <div 
+              class="info-row"
+              v-for="(contact, idx) in userData.emergencyContacts"
+              :key="idx"
+            >
+              <span class="info-label">{{ contact.name }} ({{ contact.relation }}):</span>
+              <span class="info-value">{{ contact.phone }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -58,6 +72,7 @@ const error = ref(null);
 onMounted(async () => {
   try {
     const res = await axios.get(`https://api-node-0kfj.onrender.com/api/user/public/${id}`);
+    // espera ahora el backend devuelva también bloodType, disabilityDescription y emergencyContacts
     userData.value = res.data;
   } catch (err) {
     error.value = 'No se pudo obtener la información. Por favor, intente más tarde.';
@@ -68,14 +83,25 @@ onMounted(async () => {
 
 // Campos para mostrar
 const fields = computed(() => ({
-  "Nombre completo": userData.value.fullName,
-  // Puedes agregar más campos aquí si el backend los proporciona
-  // "Teléfono": userData.value.phone,
-  // "Correo": userData.value.email,
+  "Nombre completo": userData.value.fullName || '',
+  "Tipo de Sangre": userData.value.bloodType || 'No especificado',
+  "Discapacidad": userData.value.disabilityDescription || 'No especificado',
+  // otros campos que quieras exponer directamente...
 }));
 </script>
 
 <style scoped>
+/* (mantén los estilos que ya tenías arriba) */
+
+.emergency-section {
+  margin-top: 1.5rem;
+}
+
+.emergency-section h2 {
+  font-size: 1.25rem;
+  color: #c53030;
+  margin-bottom: 0.75rem;
+}
 /* Estilos base */
 .profile-container {
   padding: 1rem;
