@@ -4,33 +4,27 @@
       <!-- Avatar -->
       <div class="avatar-container">
         <div class="avatar">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#E0E0E0"/>
-            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#E0E0E0"/>
-          </svg>
+          <!-- …SVG… -->
         </div>
       </div>
 
       <!-- Contenido -->
       <div class="profile-content">
         <h1>Información de Contacto</h1>
-        
+
         <div v-if="loading" class="loading-state">
           <div class="spinner"></div>
           <p>Cargando información...</p>
         </div>
-        
+
         <div v-else-if="error" class="error-state">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"/>
-          </svg>
+          <!-- …icono de error… -->
           <p>{{ error }}</p>
         </div>
 
-        <!-- Mostrar datos si no hay loading ni error -->
-        <div v-if="!loading && !error" class="user-info">
-          <!-- Datos básicos -->
-          <div 
+        <div v-else class="user-info">
+          <!-- Campos generales -->
+          <div
             class="info-row"
             v-for="(value, label) in fields"
             :key="label"
@@ -39,16 +33,16 @@
             <span class="info-value">{{ value }}</span>
           </div>
 
-          <!-- Contactos de emergencia -->
+          <!-- Lista de contactos de emergencia -->
           <div v-if="userData.emergencyContacts?.length" class="emergency-section">
             <h2>Contactos de Emergencia</h2>
-            <div 
+            <div
               class="info-row"
-              v-for="(contact, idx) in userData.emergencyContacts"
+              v-for="(c, idx) in userData.emergencyContacts"
               :key="idx"
             >
-              <span class="info-label">{{ contact.name }} ({{ contact.relation }}):</span>
-              <span class="info-value">{{ contact.phone }}</span>
+              <span class="info-label">{{ c.relation }}:</span>
+              <span class="info-value">{{ c.name }} — {{ c.phone }}</span>
             </div>
           </div>
         </div>
@@ -72,7 +66,6 @@ const error = ref(null);
 onMounted(async () => {
   try {
     const res = await axios.get(`https://api-node-0kfj.onrender.com/api/user/public/${id}`);
-    // espera ahora el backend devuelva también bloodType, disabilityDescription y emergencyContacts
     userData.value = res.data;
   } catch (err) {
     error.value = 'No se pudo obtener la información. Por favor, intente más tarde.';
@@ -81,16 +74,26 @@ onMounted(async () => {
   }
 });
 
-// Campos para mostrar
 const fields = computed(() => ({
-  "Nombre completo": userData.value.fullName || '',
+  "Nombre completo": userData.value.fullName || '—',
   "Tipo de Sangre": userData.value.bloodType || 'No especificado',
   "Discapacidad": userData.value.disabilityDescription || 'No especificado',
-  // otros campos que quieras exponer directamente...
+  "Número de contactos": userData.value.emergencyContacts?.length || 0
 }));
 </script>
 
 <style scoped>
+/* …mantén tus estilos anteriores… */
+
+.emergency-section {
+  margin-top: 1.5rem;
+}
+
+.emergency-section h2 {
+  font-size: 1.25rem;
+  color: #c53030;
+  margin-bottom: 0.5rem;
+}
 /* (mantén los estilos que ya tenías arriba) */
 
 .emergency-section {
@@ -101,7 +104,7 @@ const fields = computed(() => ({
   font-size: 1.25rem;
   color: #c53030;
   margin-bottom: 0.75rem;
-}
+} 
 /* Estilos base */
 .profile-container {
   padding: 1rem;
