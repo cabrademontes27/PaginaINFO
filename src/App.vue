@@ -1,5 +1,5 @@
 <script setup>
-import ToolbarPages from './components/ToolbarPages.vue'
+//import ToolbarPages from './components/ToolbarPages.vue'
 import Home from './pages/Home.vue';
 </script>
 
