@@ -4,33 +4,8 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
   />
   <div class="home-container">
-    <!-- Header Section -->
-    <header :class="['header', { scrolled: isScrolled }]">
-      <div class="logo">
-        <span>INVISINGS.</span>
-      </div>
-
-      <div class="hamburger" @click="toggleNav">
-        <i class="fas fa-bars"></i>
-      </div>
-
-      <nav class="nav">
-        <ul>
-          <li><a href="#home" @click="closeNav">Inicio</a></li>
-          <li><a href="#Innovation" @click="closeNav">Innovacion</a></li>
-          <li><a href="#investigation" @click="closeNav">Investigaciones</a></li>
-          <li>
-            <router-link to="/buscame" @click="closeNav">Buscame</router-link>
-          </li>
-          <li>
-            <router-link to="/aprender-a-jugar" @click="closeNav"
-              >Aprende Braille</router-link
-            >
-          </li>
-          <li><a href="#team" @click="closeNav">Nosotros</a></li>
-        </ul>
-      </nav>
-    </header>
+    <!-- Header ya modularizado -->
+    <HeaderBar />
 
     <!-- Hero Section -->
     <div class="main-content">
@@ -72,250 +47,56 @@
   </div>
 
   <div class="information-content">
-    <!-- Main section for mission and related content -->
     <section class="information" aria-label="Información general">
-      <!-- Methodology / Research -->
-      <section class="research-section" aria-label="Investigación y metodología">
-        <div class="research-container">
-          <!-- Left Column - Text Content -->
-          <div id="investigation" class="research-main">
-            <h2>Metodología Científica</h2>
-            <p class="section-subtitle">
-              Un enfoque estructurado para la innovación accesible
-            </p>
+      <ResearchSection
+        :researchTabs="researchTabs"
+        :activeTab="activeTab"
+        :documents="documents"
+        :curiosities="curiosities"
+        @document-selected="handleDocumentSelect"
+      />
 
-            <!-- Interactive Tabs -->
-            <div class="research-tabs">
-              <button
-                v-for="(tab, index) in researchTabs"
-                :key="index"
-                @click="activeTab = index"
-                :class="{ active: activeTab === index }"
-              >
-                {{ tab.title }}
-              </button>
-            </div>
-
-            <!-- Tab Content -->
-            <div class="tab-content">
-              <div
-                v-for="(tab, index) in researchTabs"
-                :key="index"
-                v-show="activeTab === index"
-                class="fade-in"
-              >
-                <h3>{{ tab.subtitle }}</h3>
-                <p>{{ tab.content }}</p>
-              </div>
-            </div>
-
-            <!-- Document Folder Component -->
-            <MiniaturaDePestañaDeDocumentos
-              :documents="documents"
-              @document-selected="handleDocumentSelect"
-            />
-          </div>
-
-          <!-- Right Column - Datos Curiosos -->
-          <div class="research-sidebar">
-            <div class="curiosities-card">
-              <h4>Datos Curiosos</h4>
-
-              <div class="curiosity-item">
-                <i class="fas fa-brain"></i>
-                <div>
-                  <span>30%</span>
-                  <p>
-                    del cerebro se activa al procesar información táctil en
-                    personas con discapacidad visual.
-                  </p>
-                </div>
-              </div>
-
-              <div class="curiosity-item">
-                <i class="fas fa-globe"></i>
-                <div>
-                  <span>285M</span>
-                  <p>
-                    de personas en el mundo tienen discapacidad visual, según la
-                    OMS.
-                  </p>
-                </div>
-              </div>
-
-              <div class="curiosity-item">
-                <i class="fas fa-book"></i>
-                <div>
-                  <span>1.5x</span>
-                  <p>
-                    más rápido es el aprendizaje del braille en niños que en
-                    adultos.
-                  </p>
-                </div>
-              </div>
-
-              <div class="curiosity-item">
-                <i class="fas fa-hand-holding-heart"></i>
-                <div>
-                  <span>80%</span>
-                  <p>
-                    de los casos de discapacidad visual son prevenibles o
-                    tratables.
-                  </p>
-                </div>
-              </div>
-
-              <div class="curiosity-item">
-                <i class="fas fa-lightbulb"></i>
-                <div>
-                  <span>90%</span>
-                  <p>
-                    de las personas con discapacidad visual usan un smartphone
-                    como herramienta principal.
-                  </p>
-                </div>
-              </div>
-
-              <div class="curiosity-item">
-                <i class="fas fa-users"></i>
-                <div>
-                  <span>2x</span>
-                  <p>
-                    más probabilidades tienen las personas con discapacidad
-                    visual de vivir en pobreza.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Features / Innovations Section -->
-      <section class="feature-section" aria-label="Características principales">
-        <div id="Innovation" class="feature-text">
-          <h3>Nuestras Innovaciones</h3>
-          <p>
-            En <strong>Invisings</strong>, estamos comprometidos con la creación
-            de tecnología que transforma vidas. Nuestra aplicación está diseñada
-            específicamente para empoderar a personas con discapacidad visual,
-            ofreciendo herramientas innovadoras que promueven la independencia,
-            la seguridad y la conexión con el mundo que les rodea.
-          </p>
-
-          <ul class="feature-list">
-            <li>
-              <strong>🦯 Funcionalidad para ubicación en tiempo real:</strong
-              ><br />
-              Navega con confianza gracias a nuestro sistema de guía en tiempo
-              real. La app te proporciona indicaciones precisas y alertas sobre
-              obstáculos, permitiéndote moverte de manera segura y autónoma.
-            </li>
-            <li>
-              <strong>📖 Lector de medicamentos por cámara:</strong><br />
-              Simplifica tu día a día con nuestro lector de medicamentos.
-              Escanea el envase de tus medicamentos con la cámara y la app te
-              leerá en voz alta la información importante, como la dosis y las
-              instrucciones.
-            </li>
-            <li>
-              <strong>🎧 Asistente por comandos de voz:</strong><br />
-              Controla la aplicación con tu voz. Nuestro asistente de voz
-              responde a tus comandos, permitiéndote acceder a todas las
-              funciones de manera rápida y sin necesidad de tocar la pantalla.
-            </li>
-            <li>
-              <strong>📱 Aplicación con asistente de voz:</strong><br />
-              Una experiencia completamente accesible. Desde la navegación hasta
-              la lectura de textos, nuestro asistente de voz está diseñado para
-              adaptarse a tus necesidades y hacerte la vida más fácil.
-            </li>
-          </ul>
-
-          <p>
-            En <strong>Invisings</strong>, creemos que la tecnología debe ser
-            inclusiva. Nuestra aplicación no solo es una herramienta, sino un
-            puente hacia un mundo más accesible y conectado para todos.
-          </p>
-        </div>
-
-        <div class="feature-image">
-          <img
-            src="/src/assets/PruebaEjemplo.jpg"
-            alt="Representación visual de tecnología accesible"
-            class="accessible-image"
-          />
-        </div>
-      </section>
-
-      <!-- Team Section -->
-      <section id="team" class="team-section" aria-label="Conoce nuestro equipo">
-        <h3>Conoce Nuestro Equipo</h3>
-        <p class="team-description">
-          Un grupo diverso de ingenieros, diseñadores inclusivos y especialistas
-          en accesibilidad comprometidos con hacer la diferencia.
-        </p>
-        <div class="team-members">
-          <div
-            class="team-member"
-            v-for="(member, index) in teamMembers"
-            :key="index"
-          >
-            <img
-              :src="member.image"
-              :alt="`Foto de ${member.name}`"
-              class="member-image"
-            />
-            <div class="member-info">
-              <p class="member-role">{{ member.role }}</p>
-              <p class="member-name">{{ member.name }}</p>
-              <div class="member-social">
-                <a href="#" aria-label="LinkedIn"
-                  ><i class="fab fa-linkedin"></i
-                ></a>
-                <a href="#" aria-label="Twitter"
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a href="#" aria-label="GitHub"
-                  ><i class="fab fa-github"></i
-                ></a>
-                <a href="#" aria-label="Instagram"
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <InnovationSection />
+      <TeamSection :members="teamMembers" />
     </section>
   </div>
 </template>
+
 <script>
-import MiniaturaDePestañaDeDocumentos from "../components/MiniaturaDePestañaDeDocumentos.vue";
+import HeaderBar from "../components/HeaderBar.vue";
+import ResearchSection from "../components/ResearchSection.vue";
+import InnovationSection from "../components/Innovation.vue";
+import TeamSection from "../components/TeamSection.vue";
+
+import AlejandraImg from '../assets/Alejandra.jpeg';
+import GermanImg from '../assets/Perfil_german.png';
+import AuroraImg from '../assets/Aurora.jpeg';
 
 export default {
   name: "Home",
   components: {
-    MiniaturaDePestañaDeDocumentos,
+    HeaderBar,
+    ResearchSection,
+    InnovationSection,
+    TeamSection,
   },
   data() {
     return {
-      isScrolled: false, // Used to handle scroll-based header style
       teamMembers: [
         {
-          name: "Alejandra Bautista Ortiz",
+           name: "Alejandra Bautista Ortiz",
           role: "Estudiante de ingeniería de software",
-          image: "/src/assets/Alejandra.jpeg",
+          image: AlejandraImg,
         },
         {
           name: "Luis German Cabrera Monteros",
           role: "Estudiante de ingeniería de software",
-          image: "/src/assets/Perfil_german.png",
+          image: GermanImg,
         },
         {
           name: "Caamaño Orozco Esmeralda Aurora",
-          role: "Estudiantes de contaduria",
-          image: "/src/assets/Aurora.jpeg",
+          role: "Estudiante de contaduría",
+          image: AuroraImg,
         },
       ],
       activeTab: 0,
@@ -342,7 +123,7 @@ export default {
           title: "Recopilación",
           subtitle: "Recopilación de Datos",
           content:
-            "Se aplicaron dos cuestionarios de tipo Likert a 250 personas. Se midieron factores como adaptación, accesibilidad, utilidad y costo-beneficio. Los datos fueron recolectados a través de encuestas en línea y entrevistas directas​",
+            "Se aplicaron dos cuestionarios de tipo Likert a 250 personas. Se midieron factores como adaptación, accesibilidad, utilidad y costo-beneficio. Los datos fueron recolectados a través de encuestas en línea y entrevistas directas​.",
         },
         {
           title: "Análisis",
@@ -362,77 +143,68 @@ export default {
           content:
             "El proyecto INVISIGNS fue presentado en la Universidad Veracruzana como parte de un reporte científico avanzado. Se publicaron los hallazgos en una página web y redes sociales para promover el conocimiento sobre accesibilidad. Se realizaron alianzas con instituciones educativas para la distribución de los productos y su implementación en programas de inclusión",
         },
-
-        // Add more tabs as needed
-      ],
-      timelineSteps: [
-        "Identificación de necesidades",
-        "Revisión bibliográfica",
-        "Diseño de solución",
-        "Desarrollo tecnológico",
-        "Validación con usuarios",
-        "Implementación final",
       ],
       documents: [
-  {
-    title: "Plan de Negocio.pdf",
-    type: "pdf",
-    url: "/Documents/PlanDeNegocios.pdf", // Correct path to the file
-    thumbnail: "/documents/reporte-final.jpg", // Optional: Add a thumbnail if needed
-  },
-  {
-    title: "Cuestionario de Evaluación.pdf",
-    type: "pdf",
-    url: "/Documents/CuestionarioEvalu.pdf", // Correct path to the file
-  },
-  {
-    title: "Reporte Científico.pdf",
-    type: "pdf",
-    url: "/Documents/ReporteCientifico.pdf", // Correct path to the file
-  },
-],
+        {
+          title: "Plan de Negocio.pdf",
+          type: "pdf",
+          url: "/Documents/PlanDeNegocios.pdf",
+          thumbnail: "/documents/reporte-final.jpg",
+        },
+        {
+          title: "Cuestionario de Evaluación.pdf",
+          type: "pdf",
+          url: "/Documents/CuestionarioEvalu.pdf",
+        },
+        {
+          title: "Reporte Científico.pdf",
+          type: "pdf",
+          url: "/Documents/ReporteCientifico.pdf",
+        },
+      ],
+      curiosities: [
+        {
+          icon: "fas fa-brain",
+          stat: "30%",
+          text: "del cerebro se activa al procesar información táctil en personas con discapacidad visual.",
+        },
+        {
+          icon: "fas fa-globe",
+          stat: "285M",
+          text: "de personas en el mundo tienen discapacidad visual, según la OMS.",
+        },
+        {
+          icon: "fas fa-book",
+          stat: "1.5x",
+          text: "más rápido es el aprendizaje del braille en niños que en adultos.",
+        },
+        {
+          icon: "fas fa-hand-holding-heart",
+          stat: "80%",
+          text: "de los casos de discapacidad visual son prevenibles o tratables.",
+        },
+        {
+          icon: "fas fa-lightbulb",
+          stat: "90%",
+          text: "de las personas con discapacidad visual usan un smartphone como herramienta principal.",
+        },
+        {
+          icon: "fas fa-users",
+          stat: "2x",
+          text: "más probabilidades tienen las personas con discapacidad visual de vivir en pobreza.",
+        },
+      ],
     };
   },
-  mounted() {
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
   methods: {
-    // Handle scroll effect on the header
-    handleScroll() {
-      this.isScrolled = window.scrollY > 50;
-    },
-
-    // Toggle mobile navigation menu
-    toggleNav() {
-      const nav = document.querySelector(".nav");
-      nav.classList.toggle("active");
-    },
-
-    // Close mobile navigation menu
-    closeNav() {
-      const nav = document.querySelector(".nav");
-      nav.classList.remove("active");
-    },
-
-    toggleCard(index) {
-      this.methodology[index].isOpen = !this.methodology[index].isOpen;
-    },
-
     handleDocumentSelect(document) {
-      // Handle document selection
-      console.log("Selected document:", document);
+      console.log("Documento seleccionado:", document);
     },
   },
 };
 </script>
 
 <style>
-/* ======================================
-   1. GLOBAL RESET & ROOT VARIABLES
-====================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -444,15 +216,12 @@ html {
 }
 
 :root {
-  --light-coffee: #ffffff; /* Cafe claro */
-  --strong-coffee: #a4937f; /* Cafe fuerte */
-  --variant1: #968877; /* Variante 1 */
-  --variant2: #6d6150; /* Variante 2 */
+  --light-coffee: #ffffff;
+  --strong-coffee: #a4937f;
+  --variant1: #968877;
+  --variant2: #6d6150;
 }
 
-/* ======================================
-   2. GLOBAL LAYOUT
-====================================== */
 .home-container {
   display: flex;
   flex-direction: column;
@@ -468,114 +237,6 @@ html {
   flex-direction: column;
 }
 
-/* ======================================
-   3. HEADER
-====================================== */
-.header {
-  background-color: var(--strong-coffee);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, padding 0.3s ease;
-}
-
-.header.scrolled {
-  background-color: rgba(164, 147, 127, 0.9);
-  padding: 10px 30px;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--light-coffee);
-  transition: transform 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05);
-}
-
-/* ======================================
-   4. NAVIGATION
-====================================== */
-.hamburger {
-  display: none;
-  font-size: 1.5rem;
-  color: var(--light-coffee);
-  cursor: pointer;
-}
-
-.nav ul {
-  list-style: none;
-  display: flex;
-  gap: 25px;
-}
-
-.nav a {
-  color: var(--light-coffee);
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.nav a::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--light-coffee);
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.3s ease;
-}
-
-.nav a:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-.nav a:hover {
-  color: var(--variant2);
-}
-
-.nav.active::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 998;
-}
-
-.nav.active ul {
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  background-color: var(--strong-coffee);
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* ======================================
-   5. HERO SECTION
-====================================== */
 .hero {
   background: url("/src/assets/braille.jpg") no-repeat center center/cover;
   height: 60vh;
@@ -604,9 +265,6 @@ html {
   color: var(--variant2);
 }
 
-/* ======================================
-   6. ABOUT SECTION
-====================================== */
 .about {
   flex: 1;
   background-color: var(--variant1);
@@ -622,17 +280,16 @@ html {
 
 .about h2 {
   font-size: 2rem;
-  color: var(--light-coffee);
 }
 
 .vision-text {
-  color: var(--light-coffee);
   font-size: 1.5rem;
   max-width: 600px;
   margin: 10px auto;
+  color: var(--light-coffee); /* ✅ Esto asegura que el texto sea blanco */
 }
 
-/* Vision Stats */
+
 .vision-stats {
   display: flex;
   justify-content: center;
@@ -655,107 +312,15 @@ html {
   color: #ffffff;
 }
 
-/* ======================================
-   7. INFORMATION SECTION
-====================================== */
-.information-content {
-  padding: 50px 20px;
-  background-color: var(--light-coffee);
-}
-
-.information {
-  aria-label: Información general;
-}
-
-/* ===== RESEARCH SECTION ===== */
-.research-section {
-  padding: 4rem 2rem;
-  background: var(--light-coffee);
-}
-
-.research-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 3rem;
-}
-
-.research-main h2 {
-  font-size: 2.2rem;
-  color: var(--variant2);
-  margin-bottom: 0.5rem;
-}
-
-.section-subtitle {
-  color: var(--variant1);
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-}
-
-.research-tabs {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
-.research-tabs button {
-  background: none;
-  border: 2px solid var(--strong-coffee);
-  color: var(--variant2);
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.research-tabs button.active {
-  background: var(--strong-coffee);
-  color: white;
-}
-
-.research-tabs button:hover {
-  transform: translateY(-2px);
-}
-
-.tab-content {
-  border-left: 3px solid var(--strong-coffee);
-  padding-left: 2rem;
-}
-
-.tab-content h3 {
-  font-size: 1.4rem;
-  color: var(--variant2);
-  margin-bottom: 1rem;
-}
-
-.tab-content p {
-  line-height: 1.8;
-  color: var(--variant2);
-  opacity: 0.9;
-}
-
-/* Right Sidebar */
-.research-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
+/* ===============================
+   Curiosities Card actualizado
+================================ */
 .curiosities-card {
   background: linear-gradient(135deg, var(--variant1) 0%, var(--variant2) 100%);
-  color: white;
+  color: #ffffff;
   padding: 1.5rem;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.curiosities-card h4 {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.4rem;
 }
 
 .curiosity-item {
@@ -770,21 +335,21 @@ html {
   font-size: 1.8rem;
   width: 40px;
   text-align: center;
-  color: white;
   opacity: 0.9;
+  color: #ffffff;
 }
 
 .curiosity-item span {
   font-size: 1.6rem;
   font-weight: bold;
-  color: white;
+  color: #ffffff;
 }
 
 .curiosity-item p {
-  color: rgba(255, 255, 255, 0.9);
   font-size: 0.95rem;
   line-height: 1.4;
   margin: 0;
+  color: #ffffff !important;
 }
 
 .curiosity-item:hover {
@@ -792,211 +357,17 @@ html {
   opacity: 0.9;
 }
 
-/* Animations */
-.fade-in {
-  animation: fadeIn 0.5s ease;
+.information-content {
+  padding: 0 2rem;
+  box-sizing: border-box;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.information {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
-/* Responsive (Research Section) */
-@media (max-width: 768px) {
-  .research-container {
-    grid-template-columns: 1fr;
-  }
-
-  .research-tabs button {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .tab-content {
-    padding-left: 1rem;
-  }
-}
-
-/* ======================================
-   8. FEATURE SECTION
-====================================== */
-.feature-section {
-  display: flex;
-  gap: 3rem;
-  align-items: center;
-  margin: 4rem 0;
-}
-
-.feature-text {
-  flex: 1;
-  max-width: 60%;
-}
-
-.feature-text h3 {
-  font-size: 2rem;
-  color: var(--variant2);
-  margin-bottom: 1.5rem;
-}
-
-.feature-text p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: var(--variant2);
-  margin-bottom: 1.5rem;
-}
-
-.feature-image {
-  flex: 1;
-  max-width: 40%;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.accessible-image {
-  width: 100%;
-  height: auto;
-  border-radius: 15px;
-  transition: transform 0.3s ease;
-}
-
-.accessible-image:hover {
-  transform: scale(1.05);
-}
-
-.feature-list {
-  list-style: none;
-  padding-left: 0;
-}
-
-.feature-list li {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feature-list li strong {
-  font-size: 1.2rem;
-  color: var(--variant2);
-}
-
-/* Mobile Adjustments for Feature Section */
-@media (max-width: 768px) {
-  .feature-section {
-    flex-direction: column;
-  }
-  .feature-text,
-  .feature-image {
-    max-width: 100%;
-  }
-  .feature-image {
-    order: -1;
-    margin-bottom: 2rem;
-  }
-}
-
-/* ======================================
-   9. TEAM SECTION
-====================================== */
-.team-section {
-  background: var(--strong-coffee);
-  padding: 3rem 2rem;
-  border-radius: 15px;
-  margin-top: 4rem;
-  text-align: center;
-}
-
-.team-description {
-  color: var(--light-coffee);
-  max-width: 700px;
-  margin: 0.5rem auto 2rem auto;
-}
-
-.team-members {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.team-member {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-  padding: 1rem;
-}
-
-.team-member:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.member-image {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid var(--light-coffee);
-  margin: 0 auto 1rem;
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.team-member:hover .member-image {
-  transform: scale(1.1);
-  border-color: var(--variant2);
-}
-
-.member-info {
-  padding: 1rem;
-}
-
-.member-role {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: var(--variant2);
-  font-size: 1.1rem;
-}
-
-.member-name {
-  color: var(--variant2);
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.member-social {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.member-social a {
-  color: var(--variant2);
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
-}
-
-.member-social a:hover {
-  color: var(--light-coffee);
-}
-
-/* ======================================
-   10. RESPONSIVE NAVIGATION
-====================================== */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-}
 </style>
+
