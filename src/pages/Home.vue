@@ -70,6 +70,11 @@ import FooterBar from "../components/FooterBar.vue";
 import AlejandraImg from '../assets/Alejandra.jpeg';
 import GermanImg from '../assets/Perfil_german.png';
 import AuroraImg from '../assets/Aurora.jpeg';
+import Brenda from '../assets/Brenda.jpeg'
+import Yaneira from '../assets/Yaneira.jpeg'
+import Yesenia from '../assets/Yesenia.jpeg'
+import Guadalupe from '../assets/Guadalupe.jpeg'
+
 
 export default {
   name: "Home",
@@ -87,16 +92,64 @@ export default {
            name: "Alejandra Bautista Ortiz",
             role: "Estudiante de ingeniería de software",
             image: AlejandraImg,
+            social: {
+              linkedin: "https://www.linkedin.com/in/alejandra-bautista-ortiz-a13b922ba?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+              twitter: "https://twitter.com/alejandra",
+              github: "https://github.com/Ortiz05Ale",
+              instagram: "https://www.instagram.com/ale_otz5?igsh=MWsycGdzc2Q0OXMwZQ=="
+            }
         },
         {
           name: "Luis German Cabrera Monteros",
           role: "Estudiante de ingeniería de software",
           image: GermanImg,
+          social: {
+              linkedin: "https://www.linkedin.com/in/alejandra-bautista-ortiz-a13b922ba?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+              twitter: "https://x.com/GERMANNNXD",
+              github: "https://github.com/cabrademontes27",
+              instagram: "https://www.instagram.com/ddyxgrmy/"
+            }
         },
         {
-          name: "Caamaño Orozco Esmeralda Aurora",
+          name: "Esmeralda Aurora Caamaño Orozco ",
           role: "Estudiante de contaduría",
           image: AuroraImg,
+          social: {
+              twitter: "https://x.com/Merdrafts?t=Bds_WnYBDeSkQFBC2tlXow&s=09",
+              instagram: "https://www.instagram.com/flwer_ro?igsh=MXF3cmFvcDNydzBvaw=="
+            }
+        },
+        {
+          name: "Guadalupe Cruz Flores ",
+          role: "Estudiante de contaduría",
+          image: Guadalupe,
+          social: {
+              instagram: "https://www.instagram.com/ale_otz5?igsh=MWsycGdzc2Q0OXMwZQ==",
+            }
+        },
+        {
+          name: "Yesenia Diaz Diaz ",
+          role: "Estudiante de contaduría",
+          image: Yesenia,
+          social: {
+              instagram: "https://www.instagram.com/yesenia.dd?igsh=dnI5eTRrOWNyd2Fm"
+            }
+        },
+        {
+          name: "Yaneira Lizet Lara Marquez",
+          role: "Estudiante de contaduría",
+          image: Yaneira,
+          social: {
+              instagram: "https://www.instagram.com/iamlarayann?igsh=OTA5N3EzOHh4cDg4"
+            }
+        },
+        {
+          name: "Brenda Romaly Lezama Poblete",
+          role: "Estudiante de contaduría",
+          image: Brenda,
+          social: {
+              instagram: "https://www.instagram.com/_brendalezama?igsh=NHp3cjk0ajRydzR2&utm_source=qr"
+            }
         },
       ],
       activeTab: 0,
