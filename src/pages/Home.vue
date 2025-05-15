@@ -104,7 +104,7 @@ export default {
           role: "Estudiante de ingeniería de software",
           image: GermanImg,
           social: {
-              linkedin: "https://www.linkedin.com/in/alejandra-bautista-ortiz-a13b922ba?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+              linkedin: "https://www.linkedin.com/in/luis-cabrera-53b3b72aa/",
               twitter: "https://x.com/GERMANNNXD",
               github: "https://github.com/cabrademontes27",
               instagram: "https://www.instagram.com/ddyxgrmy/"
