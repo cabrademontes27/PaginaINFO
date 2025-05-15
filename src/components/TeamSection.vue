@@ -19,10 +19,18 @@
           <p class="member-role">{{ member.role }}</p>
           <p class="member-name">{{ member.name }}</p>
           <div class="member-social">
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a :href="member.social?.linkedin" target="_blank" aria-label="LinkedIn" v-if="member.social?.linkedin">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a :href="member.social?.twitter" target="_blank" aria-label="Twitter" v-if="member.social?.twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a :href="member.social?.github" target="_blank" aria-label="GitHub" v-if="member.social?.github">
+            <i class="fab fa-github"></i>
+          </a>
+          <a :href="member.social?.instagram" target="_blank" aria-label="Instagram" v-if="member.social?.instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
           </div>
         </div>
       </div>
