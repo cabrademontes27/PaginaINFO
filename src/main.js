@@ -27,6 +27,26 @@ const router = createRouter({
       component: () => import('./pages/InformationQR.vue'),
       meta: { title: 'Emergencia | Voz Amiga' }
     },
+    {
+      path: "/register",
+      name: "Register",
+      component: () => import("@/pages/RegisterView.vue"),
+      meta: { title: 'Registro de Usuario' }
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import("@/pages/LoginView.vue"),
+      meta: { title: "Iniciar Sesión | INVISINGS" },
+    },
+    {
+      path: '/app-movil',
+      name: 'AppMovil',
+      component: () => import('@/pages/AppMovilView.vue'),
+      meta: { title: 'App móvil | Voz Amiga' }
+    },
+
+
   ]
 });
 

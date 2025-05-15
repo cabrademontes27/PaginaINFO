@@ -9,17 +9,23 @@
     </div>
 
     <nav class="nav" :class="{ active: isNavActive }">
-      <ul>
+      <ul class="nav-links">
         <li><a @click.prevent="scrollTo('home')">Inicio</a></li>
-        <li><a @click.prevent="scrollTo('Innovation')">Innovación</a></li>
         <li><a @click.prevent="scrollTo('investigation')">Investigaciones</a></li>
         <li><router-link to="/buscame" @click="closeNav">Búscame</router-link></li>
         <li><router-link to="/aprender-a-jugar" @click="closeNav">Aprende Braille</router-link></li>
         <li><a @click.prevent="scrollTo('team')">Nosotros</a></li>
+        <li><router-link to="/app-movil" @click="closeNav">App móvil</router-link></li>
       </ul>
+      <router-link to="/login" class="register-btn" @click="closeNav">
+        Ingresar
+      </router-link>
     </nav>
   </header>
 </template>
+
+<!-- Script y estilos permanecen igual salvo el botón -->
+
 
 <script>
 export default {
@@ -93,13 +99,22 @@ export default {
   cursor: pointer;
 }
 
-.nav ul {
-  list-style: none;
+.nav {
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 1rem;
 }
 
-.nav a {
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin-right: 1rem;
+}
+
+.nav a,
+.nav-links a,
+.nav-links router-link {
   color: var(--light-coffee);
   text-decoration: none;
   font-weight: bold;
@@ -130,6 +145,23 @@ export default {
   color: var(--variant2);
 }
 
+.register-btn {
+  border: 2px solid var(--light-coffee);
+  color: var(--light-coffee);
+  padding: 8px 14px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: var(--light-coffee);
+  color: var(--variant2);
+}
+
+
 .nav.active ul {
   flex-direction: column;
   position: absolute;
@@ -146,11 +178,25 @@ export default {
   .hamburger {
     display: block;
   }
-  .nav ul {
+  .nav-links {
     display: none;
   }
-  .nav.active ul {
+  .nav.active .nav-links {
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--strong-coffee);
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .nav {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .register-btn {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
   }
 }
 </style>
