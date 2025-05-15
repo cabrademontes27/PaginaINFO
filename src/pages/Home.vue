@@ -4,50 +4,45 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
   />
   <div class="home-container">
-    <!-- Header ya modularizado -->
     <HeaderBar />
 
     <!-- Hero Section -->
-    <div class="main-content">
-      <section id="home" class="hero">
-        <div class="overlay">
-          <h1>Innovación más allá de los límites</h1>
-          <p>Empoderando tus decisiones</p>
-        </div>
-      </section>
+    <section id="home" class="hero">
+      <div class="overlay">
+        <h1>Innovación más allá de los límites</h1>
+        <p>Empoderando tus decisiones</p>
+      </div>
+    </section>
 
-      <!-- About Section -->
-      <section id="about" class="about">
-        <h2>Nuestra Visión</h2>
-        <p class="vision-text">
-          En Invisings imaginamos un mundo donde la accesibilidad digital sea
-          una realidad universal. Creemos firmemente que la tecnología debe
-          romper barreras, no crearlas. Nuestra visión es ser pioneros en el
-          desarrollo de soluciones que empoderen a las personas con discapacidad
-          visual para vivir con plena autonomía y dignidad.
-        </p>
+    <!-- About Section -->
+    <section id="about" class="about">
+      <h2>Nuestra Visión</h2>
+      <p class="vision-text">
+        En Invisings imaginamos un mundo donde la accesibilidad digital sea
+        una realidad universal. Creemos firmemente que la tecnología debe
+        romper barreras, no crearlas. Nuestra visión es ser pioneros en el
+        desarrollo de soluciones que empoderen a las personas con discapacidad
+        visual para vivir con plena autonomía y dignidad.
+      </p>
 
-        <!-- Vision Statistics -->
-        <div class="vision-stats">
-          <div class="stat-item">
-            <div class="stat-number">285M</div>
-            <div class="stat-label">
-              Personas con discapacidad visual en el mundo (OMS)
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">80%</div>
-            <div class="stat-label">
-              De los casos de discapacidad visual son evitables
-            </div>
+      <div class="vision-stats">
+        <div class="stat-item">
+          <div class="stat-number">285M</div>
+          <div class="stat-label">
+            Personas con discapacidad visual en el mundo (OMS)
           </div>
         </div>
-      </section>
-    </div>
-  </div>
+        <div class="stat-item">
+          <div class="stat-number">80%</div>
+          <div class="stat-label">
+            De los casos de discapacidad visual son evitables
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="information-content">
-    <section class="information" aria-label="Información general">
+    <!-- Research, Innovation, Team -->
+    <section class="information">
       <ResearchSection
         :researchTabs="researchTabs"
         :activeTab="activeTab"
@@ -59,6 +54,9 @@
       <InnovationSection />
       <TeamSection :members="teamMembers" />
     </section>
+
+    <!-- Footer -->
+    <FooterBar />
   </div>
 </template>
 
@@ -67,6 +65,7 @@ import HeaderBar from "../components/HeaderBar.vue";
 import ResearchSection from "../components/ResearchSection.vue";
 import InnovationSection from "../components/Innovation.vue";
 import TeamSection from "../components/TeamSection.vue";
+import FooterBar from "../components/FooterBar.vue";
 
 import AlejandraImg from '../assets/Alejandra.jpeg';
 import GermanImg from '../assets/Perfil_german.png';
@@ -79,14 +78,15 @@ export default {
     ResearchSection,
     InnovationSection,
     TeamSection,
+    FooterBar,
   },
   data() {
     return {
       teamMembers: [
         {
            name: "Alejandra Bautista Ortiz",
-          role: "Estudiante de ingeniería de software",
-          image: AlejandraImg,
+            role: "Estudiante de ingeniería de software",
+            image: AlejandraImg,
         },
         {
           name: "Luis German Cabrera Monteros",
