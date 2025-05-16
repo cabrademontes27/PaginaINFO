@@ -15,7 +15,10 @@
           <input type="password" v-model="form.password" required />
         </label>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" :disabled="isSubmitting">
+  {{ isSubmitting ? "Ingresando..." : "Entrar" }}
+</button>
+
       </form>
 
       <router-link to="/register" class="register-link">
@@ -30,6 +33,8 @@
 </template>
 
 <script>
+import api from "@/api";
+
 export default {
   name: "LoginView",
   data() {
@@ -38,15 +43,40 @@ export default {
         email: "",
         password: "",
       },
+      isSubmitting: false,
     };
   },
   methods: {
-    handleLogin() {
-      console.log("Datos ingresados:", this.form);
-      // En producción: autenticar contra la API
-    },
-  },
+    async handleLogin() {
+      this.isSubmitting = true;
+      try {
+        const { email, password } = this.form;
+
+        const response = await api.post("/login", { email, password });
+
+        alert("Inicio de sesión exitoso");
+        // Aquí puedes guardar el usuario si lo necesitas
+        this.$router.push("/");
+
+      } catch (error) {
+        const msg = error.response?.data?.error || "Ocurrió un error inesperado.";
+
+        if (msg.includes("verificado")) {
+          alert("Tu cuenta aún no ha sido verificada. Revisa tu correo.");
+        } else if (msg.includes("Credenciales inválidas")) {
+          alert("Correo o contraseña incorrectos.");
+        } else if (msg.includes("Usuario no encontrado")) {
+          alert("Este usuario no está registrado.");
+        } else {
+          alert(msg);
+        }
+      } finally {
+        this.isSubmitting = false;
+      }
+    }
+  }
 };
+
 </script>
 
 <style scoped>

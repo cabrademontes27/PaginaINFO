@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import api from "@/api";
+
 export default {
   name: "RegisterView",
   data() {
@@ -43,13 +45,29 @@ export default {
     };
   },
   methods: {
-    handleRegister() {
-      console.log("Datos registrados:", this.form);
-      // En producción: enviar a la API
-    },
-  },
+    async handleRegister() {
+      try {
+        const { email, name, password } = this.form;
+
+        // Solo una llamada de registro
+        await api.post("/web/register", {
+          name,
+          email,
+          password
+        });
+
+        alert("Registro exitoso. Revisa tu correo para verificar la cuenta.");
+        this.$router.push("/login");
+
+      } catch (error) {
+        const msg = error.response?.data?.error || "Ocurrió un error inesperado.";
+        alert(msg);
+      }
+    }
+  }
 };
 </script>
+
 
 <style scoped>
 .register-container {
