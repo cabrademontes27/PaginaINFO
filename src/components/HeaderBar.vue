@@ -12,7 +12,7 @@
       <ul class="nav-links">
         <li><a @click.prevent="scrollTo('home')">Inicio</a></li>
         <li><a @click.prevent="scrollTo('investigation')">Investigaciones</a></li>
-        <li><router-link to="/buscame" @click="closeNav">Búscame</router-link></li>
+        
         <li><router-link to="/aprender-a-jugar" @click="closeNav">Aprende Braille</router-link></li>
         <li><a @click.prevent="scrollTo('team')">Nosotros</a></li>
         <li><router-link to="/app-movil" @click="closeNav">App móvil</router-link></li>
