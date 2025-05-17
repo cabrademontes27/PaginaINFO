@@ -5,11 +5,11 @@
       <h2>Tu Perfil</h2>
       <div class="info-row">
         <span class="info-label">Nombre:</span>
-        <span class="info-value">{{ user.name || '—' }}</span>
+        <span class="info-value">{{ user.name || "—" }}</span>
       </div>
       <div class="info-row">
         <span class="info-label">Correo:</span>
-        <span class="info-value">{{ user.email || '—' }}</span>
+        <span class="info-value">{{ user.email || "—" }}</span>
       </div>
       <button class="edit-btn">Editar datos</button>
     </div>
@@ -19,8 +19,14 @@
       <h2>Familiar Vinculado</h2>
       <div v-if="linkedFamily">
         <p>{{ linkedFamily.fullName }}</p>
-        <router-link to="/familiar" class="edit-btn">Modificar datos del familiar</router-link>
-        <button @click="desvincularFamiliar" class="edit-btn" style="background: crimson;">
+        <router-link to="/familiar" class="edit-btn"
+          >Modificar datos del familiar</router-link
+        >
+        <button
+          @click="desvincularFamiliar"
+          class="edit-btn"
+          style="background: crimson"
+        >
           Desvincular familiar
         </button>
       </div>
@@ -33,7 +39,9 @@
           type="text"
           inputmode="numeric"
         />
-        <button @click="validarToken" class="edit-btn">Vincular familiar</button>
+        <button @click="validarToken" class="edit-btn">
+          Vincular familiar
+        </button>
       </div>
     </div>
 
@@ -41,9 +49,15 @@
     <div class="profile-card">
       <h2>Contactos de Emergencia</h2>
       <div v-if="linkedFamily?.emergencyContacts?.length">
-        <div class="info-row" v-for="(contact, i) in linkedFamily.emergencyContacts" :key="i">
+        <div
+          class="info-row"
+          v-for="(contact, i) in linkedFamily.emergencyContacts"
+          :key="i"
+        >
           <span class="info-label">{{ contact.relation }}:</span>
-          <span class="info-value">{{ contact.name }} — {{ contact.phone }}</span>
+          <span class="info-value"
+            >{{ contact.name }} — {{ contact.phone }}</span
+          >
         </div>
       </div>
       <div v-else>
@@ -54,7 +68,9 @@
     <!-- Cubo: Ubicación actual -->
     <div class="profile-card">
       <h2>Ubicación actual</h2>
-      <p>Próximamente se mostrará aquí un mapa con la ubicación del familiar.</p>
+      <p>
+        Próximamente se mostrará aquí un mapa con la ubicación del familiar.
+      </p>
     </div>
 
     <!-- Cubo: Medicamentos -->
@@ -70,14 +86,16 @@
     </div>
 
     <!-- Botón cerrar sesión -->
-    <div class="profile-card" style="text-align: center;">
-      <button @click="cerrarSesion" class="edit-btn" style="background: #888;">Cerrar sesión</button>
+    <div class="profile-card" style="text-align: center">
+      <button @click="cerrarSesion" class="edit-btn" style="background: #888">
+        Cerrar sesión
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import api from "@/api";  // importa tu cliente Axios
+import api from "@/api"; // importa tu cliente Axios
 
 export default {
   name: "ProfileView",
@@ -87,16 +105,21 @@ export default {
       linkedFamily: null,
       medicamentos: [],
       medicamentosControl: [],
-      codigoToken: ""
+      codigoToken: "",
     };
   },
   mounted() {
+    console.log("[ProfileView] 🟢 mounted!");
     const stored = localStorage.getItem("user");
-    if (stored) this.user = JSON.parse(stored);
 
-    const linkedId = localStorage.getItem("linkedUserId");
-    if (linkedId) this.cargarFamiliar(linkedId);
+    if (stored) {
+      this.user = JSON.parse(stored);
+      this.verificarFamiliarVinculado(); // 👈 Nueva función aquí
+    } else {
+      console.warn("⚠️ No se encontró 'user' en localStorage");
+    }
   },
+
   methods: {
     async cargarFamiliar(id) {
       console.log("👉 [ProfileView] cargando familiar con ID:", id);
@@ -109,6 +132,30 @@ export default {
       }
     },
 
+    async verificarFamiliarVinculado() {
+      try {
+        console.log("🔍 Buscando usuario web para:", this.user.email);
+        const res = await api.get(
+          `/getUserByEmailWeb?email=${this.user.email}`
+        );
+
+        const linkedId = res.data?.linkedUserId;
+        if (!linkedId) {
+          console.log("⚠️ No hay familiar vinculado aún.");
+          this.linkedFamily = null;
+          return;
+        }
+
+        console.log("🔗 ID de familiar vinculado:", linkedId);
+        await this.cargarFamiliar(linkedId);
+        localStorage.setItem("linkedUserId", linkedId);
+      } catch (err) {
+        console.error(
+          "❌ Error al verificar familiar vinculado:",
+          err.response?.data || err.message
+        );
+      }
+    },
     async validarToken() {
       if (this.codigoToken.length !== 6) {
         return alert("El token debe tener 6 dígitos.");
@@ -123,7 +170,7 @@ export default {
       try {
         const res = await api.post(`/web/vincular`, {
           email: this.user.email,
-          token: this.codigoToken
+          token: this.codigoToken,
         });
         console.log("✅ [ProfileView] respuesta del servidor:", res.data);
 
@@ -151,7 +198,7 @@ export default {
       );
       try {
         const res = await api.post(`/web/desvincular`, {
-          email: this.user.email
+          email: this.user.email,
         });
         console.log("✅ [ProfileView] respuesta desvincular:", res.data);
 
@@ -172,12 +219,10 @@ export default {
       localStorage.removeItem("user");
       localStorage.removeItem("linkedUserId");
       this.$router.push("/login");
-    }
-  }
+    },
+  },
 };
 </script>
-
-
 
 <style scoped>
 .profile-container {
@@ -238,6 +283,8 @@ h3 {
 }
 </style>
 
-
-
-<style> body { background-color: var(--strong-coffee); } </style>
+<style>
+body {
+  background-color: var(--strong-coffee);
+}
+</style>
