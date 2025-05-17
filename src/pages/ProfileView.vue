@@ -19,9 +19,9 @@
       <h2>Familiar Vinculado</h2>
       <div v-if="linkedFamily">
         <p>{{ linkedFamily.fullName }}</p>
-        <router-link to="/familiar" class="edit-btn"
-          >Modificar datos del familiar</router-link
-        >
+        <router-link to="/familiar" class="edit-btn">
+          Modificar datos del familiar
+        </router-link>
         <button
           @click="desvincularFamiliar"
           class="edit-btn"
@@ -55,9 +55,7 @@
           :key="i"
         >
           <span class="info-label">{{ contact.relation }}:</span>
-          <span class="info-value"
-            >{{ contact.name }} — {{ contact.phone }}</span
-          >
+          <span class="info-value">{{ contact.name }} — {{ contact.phone }}</span>
         </div>
       </div>
       <div v-else>
@@ -68,9 +66,7 @@
     <!-- Cubo: Ubicación actual -->
     <div class="profile-card">
       <h2>Ubicación actual</h2>
-      <p>
-        Próximamente se mostrará aquí un mapa con la ubicación del familiar.
-      </p>
+      <div id="map" class="map-placeholder">Cargando mapa...</div>
     </div>
 
     <!-- Cubo: Medicamentos -->
@@ -94,7 +90,9 @@
   </div>
 </template>
 
+
 <script>
+import L from "leaflet";
 import api from "@/api"; // importa tu cliente Axios
 
 export default {
@@ -131,6 +129,39 @@ export default {
         console.error("❌ [ProfileView] Error cargando familiar:", err);
       }
     },
+     async cargarUbicacionDelFamiliar(id) {
+      try {
+        const res = await api.get(`/ubicacion/actual?userId=${id}`);
+        const coords = res.data;
+
+        if (coords.lat && coords.lon) {
+          this.inicializarMapa(coords.lat, coords.lon);
+        } else {
+          console.warn("⚠️ Coordenadas no disponibles.");
+        }
+      } catch (err) {
+        console.error("❌ Error al obtener ubicación del familiar:", err);
+      }
+    },
+     inicializarMapa(lat, lon) {
+    console.log("🗺️ Inicializando mapa con coords:", lat, lon);
+      this.$nextTick(() => {
+         console.log("🗺️ Inicializando mapa con coords:", lat, lon);
+        if (this.mapa) {
+          this.mapa.setView([lat, lon], 15);
+          this.marcador.setLatLng([lat, lon]);
+        } else {
+          this.mapa = L.map("map").setView([lat, lon], 15);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+          }).addTo(this.mapa);
+
+          this.marcador = L.marker([lat, lon]).addTo(this.mapa).bindPopup("Familiar aquí").openPopup();
+        }
+      });
+    },
+
 
     async verificarFamiliarVinculado() {
       try {
@@ -148,6 +179,7 @@ export default {
 
         console.log("🔗 ID de familiar vinculado:", linkedId);
         await this.cargarFamiliar(linkedId);
+        await this.cargarUbicacionDelFamiliar(linkedId); 
         localStorage.setItem("linkedUserId", linkedId);
       } catch (err) {
         console.error(
@@ -281,6 +313,20 @@ h3 {
 .edit-btn:hover {
   background: var(--strong-coffee);
 }
+
+/* Contenedor visual mientras carga */
+.map-placeholder {
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Estilo definitivo para el mapa con Leaflet */
+#map {
+  height: 300px;
+  width: 100%;
+  border-radius: 12px;
+}
 </style>
 
 <style>
@@ -288,3 +334,4 @@ body {
   background-color: var(--strong-coffee);
 }
 </style>
+
