@@ -1,7 +1,8 @@
-import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import './style.css';
-import App from './App.vue';
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import App from './App.vue'
+import api from './api'                  // tu cliente Axios
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), // ← CORREGIDO
@@ -45,6 +46,20 @@ const router = createRouter({
       component: () => import('@/pages/AppMovilView.vue'),
       meta: { title: 'App móvil | Voz Amiga' }
     },
+    {
+      path: "/perfil",
+      name: "Perfil",
+      component: () => import("@/pages/ProfileView.vue"),
+      meta: { title: "Mi perfil | Voz Amiga" }
+    },
+    {
+      path: "/familiar",
+      name: "Familiar",
+      component: () => import("@/pages/FamilyView.vue"),
+      meta: { title: "Familiar | Voz Amiga" }
+    },
+
+
 
 
   ]
