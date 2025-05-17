@@ -19,29 +19,15 @@
       <h2>Familiar Vinculado</h2>
       <div v-if="linkedFamily">
         <p>{{ linkedFamily.fullName }}</p>
-        <router-link to="/familiar" class="edit-btn">
-          Modificar datos del familiar
-        </router-link>
-        <button
-          @click="desvincularFamiliar"
-          class="edit-btn"
-          style="background: crimson"
-        >
+        <router-link to="/familiar" class="edit-btn">Modificar datos del familiar</router-link>
+        <button @click="desvincularFamiliar" class="edit-btn" style="background: crimson">
           Desvincular familiar
         </button>
       </div>
       <div v-else>
         <p>No hay familiar vinculado.</p>
-        <input
-          v-model="codigoToken"
-          placeholder="Ingresa el código de 6 dígitos"
-          maxlength="6"
-          type="text"
-          inputmode="numeric"
-        />
-        <button @click="validarToken" class="edit-btn">
-          Vincular familiar
-        </button>
+        <input v-model="codigoToken" placeholder="Ingresa el código de 6 dígitos" maxlength="6" type="text" inputmode="numeric" />
+        <button @click="validarToken" class="edit-btn">Vincular familiar</button>
       </div>
     </div>
 
@@ -49,11 +35,7 @@
     <div class="profile-card">
       <h2>Contactos de Emergencia</h2>
       <div v-if="linkedFamily?.emergencyContacts?.length">
-        <div
-          class="info-row"
-          v-for="(contact, i) in linkedFamily.emergencyContacts"
-          :key="i"
-        >
+        <div class="info-row" v-for="(contact, i) in linkedFamily.emergencyContacts" :key="i">
           <span class="info-label">{{ contact.relation }}:</span>
           <span class="info-value">{{ contact.name }} — {{ contact.phone }}</span>
         </div>
@@ -72,23 +54,34 @@
     <!-- Cubo: Medicamentos -->
     <div class="profile-card">
       <h2>Medicamentos</h2>
-      <ul>
+
+      <!-- Normales -->
+      <ul v-if="medicamentos.length">
         <li v-for="(med, i) in medicamentos" :key="i">{{ med.name }}</li>
       </ul>
+      <p v-else class="no-med">No hay medicamentos normales registrados.</p>
+
+      <!-- Controlados -->
       <h3>Medicamentos de control</h3>
-      <ul>
-        <li v-for="(med, i) in medicamentosControl" :key="i">{{ med.name }}</li>
+      <ul v-if="medicamentosControl.length">
+        <li v-for="(med, i) in medicamentosControl" :key="i" class="control-med">
+          <strong>{{ med.name }}</strong><br />
+          <small>{{ med.description }}</small><br />
+          <span>🕒 Desde: {{ formatTimestamp(med.startDateTime) }}</span><br />
+          <span>📅 Hasta: {{ formatTimestamp(med.endDateTime) }}</span><br />
+          <span>⏱️ Cada {{ med.intervalHours }} horas</span>
+        </li>
       </ul>
+      <p v-else class="no-med">No hay medicamentos de control registrados.</p>
     </div>
 
     <!-- Botón cerrar sesión -->
     <div class="profile-card" style="text-align: center">
-      <button @click="cerrarSesion" class="edit-btn" style="background: #888">
-        Cerrar sesión
-      </button>
+      <button @click="cerrarSesion" class="edit-btn" style="background: #888">Cerrar sesión</button>
     </div>
   </div>
 </template>
+
 
 
 <script>
@@ -120,15 +113,29 @@ export default {
 
   methods: {
     async cargarFamiliar(id) {
-      console.log("👉 [ProfileView] cargando familiar con ID:", id);
-      try {
-        const res = await api.get(`/user/public/${id}`);
-        console.log("✅ [ProfileView] datos de familiar:", res.data);
-        this.linkedFamily = res.data;
-      } catch (err) {
-        console.error("❌ [ProfileView] Error cargando familiar:", err);
-      }
-    },
+  try {
+    const res = await api.get(`/user/public/${id}`);
+    this.linkedFamily = res.data;
+    return res.data; // 👈 Aquí devuelves los datos
+  } catch (err) {
+    console.error("❌ [ProfileView] Error cargando familiar:", err);
+    return null;
+  }
+},
+ formatTimestamp(ts) {
+    const d = new Date(ts);
+    return d.toLocaleString(); // puedes personalizarlo más si gustas
+  },
+    async cargarFamiliar(id) {
+  try {
+    const res = await api.get(`/user/public/${id}`);
+    this.linkedFamily = res.data;
+    return res.data; // ✅ Devuelve el objeto del familiar
+  } catch (err) {
+    console.error("❌ [ProfileView] Error cargando familiar:", err);
+    return null;
+  }
+},
      async cargarUbicacionDelFamiliar(id) {
       try {
         const res = await api.get(`/ubicacion/actual?userId=${id}`);
@@ -164,30 +171,56 @@ export default {
 
 
     async verificarFamiliarVinculado() {
-      try {
-        console.log("🔍 Buscando usuario web para:", this.user.email);
-        const res = await api.get(
-          `/getUserByEmailWeb?email=${this.user.email}`
-        );
+  try {
+    console.log("🔍 Buscando usuario web para:", this.user.email);
+    const res = await api.get(`/getUserByEmailWeb?email=${this.user.email}`);
 
-        const linkedId = res.data?.linkedUserId;
-        if (!linkedId) {
-          console.log("⚠️ No hay familiar vinculado aún.");
-          this.linkedFamily = null;
-          return;
-        }
+    const linkedId = res.data?.linkedUserId;
+    if (!linkedId) {
+      console.log("⚠️ No hay familiar vinculado aún.");
+      this.linkedFamily = null;
+      return;
+    }
 
-        console.log("🔗 ID de familiar vinculado:", linkedId);
-        await this.cargarFamiliar(linkedId);
-        await this.cargarUbicacionDelFamiliar(linkedId); 
-        localStorage.setItem("linkedUserId", linkedId);
-      } catch (err) {
-        console.error(
-          "❌ Error al verificar familiar vinculado:",
-          err.response?.data || err.message
-        );
-      }
-    },
+    console.log("🔗 ID de familiar vinculado:", linkedId);
+
+    const familiarData = await this.cargarFamiliar(linkedId);
+    await this.cargarUbicacionDelFamiliar(linkedId);
+
+    if (familiarData?.email) {
+      await this.cargarMedicamentosDelFamiliar(familiarData.email);
+    } else {
+      console.warn("⚠️ Email del familiar no disponible.");
+    }
+
+    localStorage.setItem("linkedUserId", linkedId);
+  } catch (err) {
+    console.error(
+      "❌ Error al verificar familiar vinculado:",
+      err.response?.data || err.message
+    );
+  }
+},
+async cargarMedicamentosDelFamiliar(email) {
+  try {
+    const medsRes = await api.get(`/medicamentos`, { params: { email } });
+    const controlRes = await api.get(`/controlled-meds`, { params: { email } });
+
+    this.medicamentosControl = controlRes.data || [];
+
+    // Excluir los que ya están en medicamentos de control
+    this.medicamentos = (medsRes.data || []).filter(
+      (med) => !this.medicamentosControl.some(
+        (controlMed) => controlMed.name === med.name
+      )
+    );
+
+    console.log("[ProfileView] medicamentos normales:", this.medicamentos);
+    console.log("[ProfileView] medicamentos de control:", this.medicamentosControl);
+  } catch (err) {
+    console.error("❌ Error al cargar medicamentos:", err);
+  }
+},
     async validarToken() {
       if (this.codigoToken.length !== 6) {
         return alert("El token debe tener 6 dígitos.");
@@ -299,6 +332,23 @@ h3 {
 .info-value {
   color: #333;
 }
+
+.control-med {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: #f9f9f9;
+  border-left: 4px solid var(--variant1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.no-med {
+  font-style: italic;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
 
 .edit-btn {
   margin-top: 1rem;

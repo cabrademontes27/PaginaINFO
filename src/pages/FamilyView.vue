@@ -72,25 +72,24 @@
       </div>
 
       <h3>Medicamentos de control</h3>
-      <div class="med-list">
-        <span 
-          v-if="!medicamentosControl.length" 
-          class="no-med"
-        >
-          No hay medicamentos de control.
-        </span>
-        <span 
-          v-else 
-          v-for="(med, i) in medicamentosControl" 
-          :key="i" 
-          class="med-badge control"
-        >
-          {{ med.name }}
-        </span>
+      <div v-if="!medicamentosControl.length" class="no-med">
+        No hay medicamentos de control.
       </div>
+      <ul v-else class="control-list">
+        <li v-for="(med, i) in medicamentosControl" :key="i" class="control-item">
+          <strong>{{ med.name }}</strong><br />
+          <span>{{ med.description }}</span><br />
+          <small>
+            🕒 Desde: {{ formatDate(med.startDateTime) }}<br />
+            📅 Hasta: {{ formatDate(med.endDateTime) }}<br />
+            ⏱️ Cada {{ med.intervalHours }} horas
+          </small>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
+
 
 
 <script>
@@ -120,6 +119,12 @@ export default {
       return `${loc.street}, ${loc.colony}, ${loc.municipality}, ${loc.state}`;
     }
   },
+  methods: {
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleString(); // Puedes usar .toLocaleDateString() si prefieres solo la fecha
+    }
+  },
   async mounted() {
     const linkedId = localStorage.getItem("linkedUserId");
     if (!linkedId) {
@@ -142,10 +147,9 @@ export default {
         this.medicamentos = medsRes.data || [];
         console.log("[FamilyView] medicamentos:", this.medicamentos);
 
-        // 3. Filtrar los de "control" por texto en descripción
-        this.medicamentosControl = this.medicamentos.filter(m =>
-          m.description?.toLowerCase().includes("control")
-        );
+        // 3. Obtener medicamentos de control
+        const medsControlRes = await api.get(`/controlled-meds`, { params: { email } });
+        this.medicamentosControl = medsControlRes.data || [];
         console.log("[FamilyView] medicamentosControl:", this.medicamentosControl);
       }
     } catch (err) {
@@ -155,6 +159,7 @@ export default {
   }
 };
 </script>
+
 
 
 <style scoped>
@@ -200,7 +205,7 @@ h3 {
   color: #333;
 }
 
-/* Lista de medicamentos como "badges" */
+/* Lista de medicamentos como badges */
 .med-list {
   display: flex;
   flex-wrap: wrap;
@@ -221,9 +226,29 @@ h3 {
   background-color: var(--variant1);
 }
 
+/* Medicamentos de control con más detalles */
+.control-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.control-item {
+  background-color: #f8f8f8;
+  border-left: 4px solid var(--variant1);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
 /* Texto cuando no hay datos */
 .no-med {
   font-style: italic;
   color: #666;
+  margin-top: 0.5rem;
 }
 </style>
