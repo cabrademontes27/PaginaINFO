@@ -20,7 +20,11 @@
           <input type="password" v-model="form.password" required />
         </label>
 
-        <button type="submit">Crear cuenta</button>
+
+        <p v-if="errorMessage" class="error-text">{{ errorMessage }}</p>
+        <button type="submit" :disabled="isSubmitting">
+          {{ isSubmitting ? "Registrando..." : "Crear cuenta" }}
+        </button>
       </form>
 
       <router-link to="/" class="back-link">
@@ -42,31 +46,48 @@ export default {
         email: "",
         password: "",
       },
+      isSubmitting: false,
+      errorMessage: "",
     };
   },
   methods: {
     async handleRegister() {
+      this.isSubmitting = true;
+      this.errorMessage = "";
       try {
         const { email, name, password } = this.form;
 
-        // Solo una llamada de registro
         await api.post("/web/register", {
           name,
           email,
-          password
+          password,
         });
 
-        alert("Registro exitoso. Revisa tu correo para verificar la cuenta.");
-        this.$router.push("/login");
+        alert("✅ Registro exitoso. Revisa tu correo para verificar la cuenta.");
 
+        // Limpiar el formulario tras registro exitoso
+        this.form = { name: "", email: "", password: "" };
+
+        // Redirigir al login
+        this.$router.push("/login");
       } catch (error) {
-        const msg = error.response?.data?.error || "Ocurrió un error inesperado.";
-        alert(msg);
+        const msg = error.response?.data?.error || "";
+        if (msg.includes("verificado")) {
+          this.errorMessage = "Ese correo ya fue verificado. Intenta iniciar sesión.";
+        } else if (msg.includes("aún no se ha verificado")) {
+          this.errorMessage = "Este correo ya fue registrado. Revisa tu bandeja de entrada para verificarlo.";
+        } else {
+          this.errorMessage = msg || "Ocurrió un error inesperado.";
+        }
+      } finally {
+        this.isSubmitting = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
+
+
 
 
 <style scoped>
@@ -141,4 +162,11 @@ button:hover {
   text-decoration: none;
   font-size: 0.95rem;
 }
+
+.error-text {
+  color: red;
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+}
+
 </style>
