@@ -15,10 +15,11 @@
           <input type="password" v-model="form.password" required />
         </label>
 
-        <button type="submit" :disabled="isSubmitting">
-  {{ isSubmitting ? "Ingresando..." : "Entrar" }}
-</button>
+        <p v-if="errorMessage" class="error-text">{{ errorMessage }}</p>
 
+        <button type="submit" :disabled="isSubmitting">
+          {{ isSubmitting ? "Ingresando..." : "Entrar" }}
+        </button>
       </form>
 
       <router-link to="/register" class="register-link">
@@ -44,39 +45,39 @@ export default {
         password: "",
       },
       isSubmitting: false,
+      errorMessage: "",
     };
   },
   methods: {
     async handleLogin() {
       this.isSubmitting = true;
+      this.errorMessage = "";
+
       try {
         const { email, password } = this.form;
-
-        const response = await api.post("/login", { email, password });
+        const response = await api.post("/web/login", { email, password });
 
         alert("Inicio de sesión exitoso");
-        // Aquí puedes guardar el usuario si lo necesitas
+        localStorage.setItem("user", JSON.stringify(response.data));
         this.$router.push("/");
-
       } catch (error) {
         const msg = error.response?.data?.error || "Ocurrió un error inesperado.";
 
         if (msg.includes("verificado")) {
-          alert("Tu cuenta aún no ha sido verificada. Revisa tu correo.");
+          this.errorMessage = "Tu cuenta aún no ha sido verificada. Revisa tu correo.";
         } else if (msg.includes("Credenciales inválidas")) {
-          alert("Correo o contraseña incorrectos.");
+          this.errorMessage = "Correo o contraseña incorrectos.";
         } else if (msg.includes("Usuario no encontrado")) {
-          alert("Este usuario no está registrado.");
+          this.errorMessage = "Este usuario no está registrado.";
         } else {
-          alert(msg);
+          this.errorMessage = msg;
         }
       } finally {
         this.isSubmitting = false;
       }
-    }
-  }
+    },
+  },
 };
-
 </script>
 
 <style scoped>
@@ -140,7 +141,12 @@ button {
   transition: background 0.3s ease;
 }
 
-button:hover {
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
   background: var(--strong-coffee);
 }
 
@@ -162,5 +168,11 @@ button:hover {
   color: var(--variant1);
   text-decoration: none;
   font-size: 0.95rem;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.95rem;
+  text-align: left;
 }
 </style>
