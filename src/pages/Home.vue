@@ -75,6 +75,11 @@ import Yaneira from '../assets/Yaneira.jpeg'
 import Yesenia from '../assets/Yesenia.jpeg'
 import Guadalupe from '../assets/Guadalupe.jpeg'
 
+import Volumen1Img from '@/assets/Volumen1.jpeg'
+import Volumen2Img from '@/assets/Volumen2.jpeg'
+import ManualImg from '@/assets/ManualUsuario.jpeg'
+
+
 
 export default {
   name: "Home",
@@ -202,7 +207,6 @@ export default {
           title: "Plan de Negocio.pdf",
           type: "pdf",
           url: "/Documents/PlanDeNegocios.pdf",
-          thumbnail: "/documents/reporte-final.jpg",
         },
         {
           title: "Cuestionario de Evaluación.pdf",
@@ -214,6 +218,24 @@ export default {
           type: "pdf",
           url: "/Documents/ReporteCientifico.pdf",
         },
+        {
+            title: "Manual de Usuario.pdf",
+            type: "pdf",
+            url: "/Documents/Manual_de_usuario.pdf",
+            thumbnail: ManualImg,
+          },
+          {
+            title: "Revista Volumen 1.pdf",
+            type: "pdf",
+            url: "https://heyzine.com/flip-book/2951b1b165.html",
+            thumbnail: Volumen1Img,
+          },
+          {
+            title: "Revista Volumen 2.pdf",
+            type: "pdf",
+            url: "https://heyzine.com/flip-book/8704425f77.html",
+            thumbnail: Volumen2Img,
+          },
       ],
       curiosities: [
         {
