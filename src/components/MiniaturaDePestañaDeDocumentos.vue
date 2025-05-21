@@ -16,9 +16,15 @@
             class="document-item"
             @click="openDocument(doc)"
           >
-            <div class="document-thumbnail">
-              <i :class="documentIcon(doc.type)"></i>
-            </div>
+          <div class="document-thumbnail">
+            <img
+              v-if="doc.thumbnail"
+              :src="doc.thumbnail"
+              alt="Miniatura"
+              class="thumbnail-image"
+            />
+            <i v-else :class="documentIcon(doc.type)"></i>
+          </div>
             <span class="document-title">{{ doc.title }}</span>
           </div>
         </div>
@@ -48,7 +54,21 @@
             type: "pdf",
             url: "/documents/ReporteCientifio.pdf"
           },
-          // Add more default documents if needed
+          {
+            title: "Plan de Negocio.pdf",
+            type: "pdf",
+            url: "/documents/PlanDeNegocios.pdf"
+          },
+          {
+            title: "Plan de Negocio.pdf",
+            type: "pdf",
+            url: "/documents/PlanDeNegocios.pdf"
+          },
+          {
+            title: "Plan de Negocio.pdf",
+            type: "pdf",
+            url: "/documents/PlanDeNegocios.pdf"
+          },
         ]
       }
     },
@@ -167,6 +187,30 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
+  .thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.document-thumbnail {
+  width: 100px;
+  height: 130px;
+  background: white;
+  border-radius: 8px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* 👈 Importante para que no se desborde */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+
   
   @media (max-width: 768px) {
     .document-grid {
