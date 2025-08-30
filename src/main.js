@@ -60,6 +60,12 @@ const router = createRouter({
       component: () => import("@/pages/FamilyView.vue"),
       meta: { title: "Familiar | Voz Amiga" }
     },
+    {
+      path:"/privacy",
+      name:"PrivacyPolicy",
+      component: () => import("@/pages/PrivacyPolicies.vue"),
+      meta: { title: "Privacidad | Voz Amiga" }
+    }
 
 
 
