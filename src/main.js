@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/app-movil',
       name: 'AppMovil',
-      component: () => import('@/pages/AppMovilView.vue'),
+      component: () => import("@/pages/AppMovilView.vue"),
       meta: { title: 'App móvil | Voz Amiga' }
     },
     {
@@ -61,9 +61,9 @@ const router = createRouter({
       meta: { title: "Familiar | Voz Amiga" }
     },
     {
-      path:"/privacy",
+      path:"/PrivacyPolicy",
       name:"PrivacyPolicy",
-      component: () => import("@/pages/PrivacyPolicies.vue"),
+      component: () => import("@/pages/PrivacyPolicy.vue"),
       meta: { title: "Privacidad | Voz Amiga" }
     }
 
